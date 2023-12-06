@@ -149,7 +149,7 @@ module.exports = {
       directory: path.join(__dirname, 'public'),
     },
     compress: true,
-    port: 3000,
+    port: 3002,
     client: {
       progress: true,
       reconnect: true,
