@@ -143,4 +143,5 @@ export default {
   userManagement: 'User Management',
   roleManagement: 'Role Management',
   vendorApproval: 'Vendor Approval',
+  orgManagement: 'Organization Management',
 };

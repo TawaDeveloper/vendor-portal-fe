@@ -150,6 +150,14 @@ const adminPanels = [
 ];
 const accessManagement = [
   {
+    path: 'org',
+    name: 'menus.top.orgManagement',
+    component: RoleManagement,
+    code: 'menu:Organization Management',
+    parentCode: 'menu:Access Management',
+    skipAuthentication: true,
+  },
+  {
     path: 'role',
     name: 'menus.top.roleManagement',
     component: RoleManagement,
