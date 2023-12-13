@@ -21,6 +21,12 @@ const INITIAL_PAGINATION = {
   pageSize: 10,
 };
 
+const StatusTextMap = {
+  '1': 'Pending',
+  '2': 'Approved',
+  '3': 'Declined',
+};
+
 const VendorApprovals = () => {
   const [form] = Form.useForm();
   const [api, contextHolder] = notification.useNotification();
@@ -63,39 +69,51 @@ const VendorApprovals = () => {
 
   const getColumns = () => [
     {
-      title: 'UPC',
-      dataIndex: 'upc',
+      title: '#',
+      dataIndex: 'c',
+      align: 'center',
+      // render: () => <a>1</a>, // Index
+    },
+    {
+      title: 'Vendor',
+      dataIndex: 'vendor',
       align: 'center',
     },
     {
-      title: 'Length(NCH)',
-      dataIndex: 'length',
+      title: 'Geo',
+      dataIndex: 'geo',
       align: 'center',
     },
     {
-      title: 'Width(NCH)',
-      dataIndex: 'upwidthc',
+      title: 'Business Model',
+      dataIndex: 'business_model',
       align: 'center',
     },
     {
-      title: 'Height(NCH)',
-      dataIndex: 'uheightpc',
+      title: 'Business Details',
+      dataIndex: 'Business_details',
       align: 'center',
     },
     {
-      title: 'Weight(NCH)',
-      dataIndex: 'weight',
-      align: 'center',
-    },
-    {
-      title: 'Update by',
-      dataIndex: 'updte',
-      align: 'center',
-    },
-    {
-      title: 'Upload date',
+      title: 'Date',
       dataIndex: 'date',
       align: 'center',
+    },
+    {
+      title: 'Status',
+      dataIndex: 'staus',
+      align: 'center',
+      render: (status: string) => <div>{StatusTextMap[status]}</div>,
+    },
+    {
+      title: 'Action',
+      dataIndex: 'index',
+      align: 'center',
+      render: () => (
+        <div>
+          <Button>Details</Button>
+        </div>
+      ),
     },
   ];
 
