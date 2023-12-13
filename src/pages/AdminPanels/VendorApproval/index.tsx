@@ -8,9 +8,10 @@ import {
   Table,
   notification,
   TableProps,
+  Select,
 } from 'antd';
 import './index.less';
-import { useRef, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import { backofficeAPI } from '@/services';
 import { TablePaginationConfig } from 'antd/es/table';
 
@@ -21,6 +22,7 @@ const INITIAL_PAGINATION = {
 };
 
 const VendorApprovals = () => {
+  const [form] = Form.useForm();
   const [api, contextHolder] = notification.useNotification();
   console.log('api: ', api);
   const [data, setData] = useState<defs.backoffice.UserRole[]>([]);
@@ -97,19 +99,65 @@ const VendorApprovals = () => {
     },
   ];
 
+  const handleReset = useCallback(() => {
+    form.resetFields();
+  }, []);
+  const handleSearch = useCallback((values: Record<string, any>) => {
+    console.log('values', values);
+  }, []);
+
   const tabs = [
     {
       label: 'Application',
       children: (
         <>
-          <Form>
+          <Form layout="vertical" form={form} onFinish={handleSearch}>
             <div className="flex">
-              <Form.Item label="UPC">
-                <Input placeholder="input placeholder" style={{ width: 250 }} />
+              <Form.Item label="Vendor" name="vendor">
+                <Input placeholder="Enter Keywords" style={{ width: 250 }} />
+              </Form.Item>
+              <Form.Item label="Geo" name="geo">
+                <Select
+                  placeholder="Please Select"
+                  style={{ width: 250 }}
+                  options={[]}
+                />
+              </Form.Item>
+              <Form.Item label="Status" name="status">
+                <Select
+                  placeholder="Please Select"
+                  style={{ width: 250 }}
+                  options={[]}
+                />
+              </Form.Item>
+              <Form.Item label="Business Model" name="business_model">
+                <Select
+                  placeholder="Please Select"
+                  style={{ width: 250 }}
+                  options={[]}
+                />
+              </Form.Item>
+              <Form.Item label="Business Details" name="business_details">
+                <Select
+                  placeholder="Please Select"
+                  style={{ width: 250 }}
+                  options={[]}
+                />
+              </Form.Item>
+              <Form.Item label="Updater" name="updater">
+                <Input placeholder="Enter Keywords" style={{ width: 250 }} />
               </Form.Item>
             </div>
             <div className="flex">
-              <Form.Item label="Date">
+              <Form.Item label="Application Date" name="application_date">
+                <RangePicker
+                  style={{ width: 500 }}
+                  getPopupContainer={(triggerNode): any =>
+                    triggerNode.parentElement
+                  }
+                />
+              </Form.Item>
+              <Form.Item label="Update Date" name="update_date">
                 <RangePicker
                   style={{ width: 500 }}
                   getPopupContainer={(triggerNode): any =>
@@ -118,8 +166,10 @@ const VendorApprovals = () => {
                 />
               </Form.Item>
               <div className="submit-btns">
-                <Button type="primary">Display Record</Button>
-                <Button type="primary">Export Record</Button>
+                <Button onClick={handleReset}>Reset</Button>
+                <Button type="primary" htmlType="submit">
+                  Search
+                </Button>
               </div>
             </div>
           </Form>
