@@ -1,16 +1,7 @@
 import React, { lazy } from 'react';
-import {
-  SafetyCertificateOutlined,
-  BarChartOutlined,
-  UnorderedListOutlined,
-} from '@ant-design/icons';
+import { EditOutlined } from '@ant-design/icons';
 import type { MenuDataItem } from '@ant-design/pro-layout';
-import {
-  baseRoutes,
-  orderMenus,
-  salesReportMenus,
-  settingMenus,
-} from './routes';
+import { accessManagement, adminPanels, baseRoutes } from './routes';
 
 const SecurityLayout = lazy(() => import('@/layouts/SecurityLayout'));
 
@@ -46,31 +37,30 @@ export interface StaticRouteType extends MenuDataItem {
 
 // use a request result to instead it.
 const menuTabs: StaticRouteType[] = [
+  // {
+  //   name: 'menus.top.vendor',
+  //   path: '/vendor',
+  //   icon: <EditOutlined />,
+  //   children: vendorManagementMenu,
+  //   code: 'menu:Vendor Portal',
+  //   component: SecurityLayout,
+  //   skipAuthentication: true,
+  // },
   {
-    name: 'menus.top.report',
-    path: '/report',
-    icon: <BarChartOutlined />,
-    children: salesReportMenus,
-    code: 'menu:Sales Report',
+    name: 'menus.top.admin',
+    path: '/admin',
+    icon: <EditOutlined />,
+    children: adminPanels,
+    code: 'menu:Admin Panels',
     component: SecurityLayout,
     skipAuthentication: true,
   },
   {
-    name: 'menus.top.order',
-    path: '/order',
-    icon: <UnorderedListOutlined />,
-    children: orderMenus,
-    code: 'menu:Order Management',
-    component: SecurityLayout,
-    skipAuthentication: true,
-  },
-
-  {
-    name: 'menus.top.setting',
-    path: '/setting',
-    icon: <SafetyCertificateOutlined />,
-    children: settingMenus,
-    code: 'menu:Setting',
+    name: 'menus.top.access',
+    path: '/access',
+    icon: <EditOutlined />,
+    children: accessManagement,
+    code: 'menu:Access Management',
     component: SecurityLayout,
     skipAuthentication: true,
   },

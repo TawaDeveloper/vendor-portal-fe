@@ -138,4 +138,9 @@ export default {
   SalesTargetSetting: 'Sales Target Settings',
   lossFactor: 'Loss Factor',
   rolePermissionSetting: 'Role permission settings',
+  admin: 'Admin Panels',
+  access: 'Access Management',
+  userManagement: 'User Management',
+  roleManagement: 'Role Management',
+  vendorApproval: 'Vendor Approval',
 };

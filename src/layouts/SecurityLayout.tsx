@@ -7,7 +7,6 @@ import { loginStateAtom } from '@/atoms/login';
 import BasicLayout from './BasicLayout';
 import { getPermissionsMenus } from '@/utils/route-utils';
 import { bakeryAPI } from '@/services';
-import { filterMenusByPermission, filterRouterByPermission } from '@/utils';
 
 // import { backofficeAPI } from '@/services';
 // import { PageLoading } from '@/components';
@@ -44,21 +43,22 @@ const SecurityLayout: React.FC = () => {
       if (login.isLogin) {
         setLoading(true);
         const { routePremiss, filteredMenus } = getPermissionsMenus([]);
-        const permissionConfig = await bakeryAPI.account.permission.request();
-        const newRoutePremiss = filterRouterByPermission(
-          routePremiss,
-          permissionConfig.data ? permissionConfig.data : [],
-        );
-        const newFilteredMenus = filterMenusByPermission(
-          filteredMenus,
-          permissionConfig.data ? permissionConfig.data : [],
-        );
+        console.log('routePremiss: ', routePremiss, filteredMenus);
+        // const permissionConfig = await bakeryAPI.account.permission.request();
+        // const newRoutePremiss = filterRouterByPermission(
+        //   routePremiss,
+        //   permissionConfig.data ? permissionConfig.data : [],
+        // );
+        // const newFilteredMenus = filterMenusByPermission(
+        //   filteredMenus,
+        //   permissionConfig.data ? permissionConfig.data : [],
+        // );
         setLogin({
           ...login,
-          routes: newRoutePremiss,
-          permission: permissionConfig.data ? permissionConfig.data : [],
+          routes: routePremiss,
+          // permission: permissionConfig.data ? permissionConfig.data : [],
           indexPath: login.indexPath,
-          routesFlat: newFilteredMenus,
+          routesFlat: filteredMenus,
         });
         setLoading(false);
       }

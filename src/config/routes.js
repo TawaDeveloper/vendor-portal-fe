@@ -27,18 +27,6 @@ const UserLayout = lazy(() =>
 // const Menu = lazy(() =>
 //   import(/* webpackChunkName: "Menu" */ '@/pages/Permission/Menu'),
 // );
-const OrderList = lazy(() =>
-  import(/* webpackChunkName: "Menu" */ '@/pages/Order/List'),
-);
-const OrderDetail = lazy(() =>
-  import(/* webpackChunkName: "Menu" */ '@/pages/Order/Detail'),
-);
-const PoDetail = lazy(() =>
-  import(/* webpackChunkName: "Menu" */ '@/pages/Order/PoDetail'),
-);
-const CreateOrder = lazy(() =>
-  import(/* webpackChunkName: "Menu" */ '@/pages/Order/Create'),
-);
 const SalesTargetSetting = lazy(() =>
   import(/* webpackChunkName: "Menu" */ '@/pages/SalesTargetSetting/List'),
 );
@@ -63,6 +51,20 @@ const RolePermissionSetting = lazy(() =>
 
 const Ghost = lazy(() =>
   import(/* webpackChunkName: "Ghost" */ '@/pages/Ghost'),
+);
+const BusinessInfomation = lazy(() =>
+  import(
+    /* webpackChunkName: "Ghost" */ '@/pages/VendorManagement/BusinessInfomation'
+  ),
+);
+const RoleManagement = lazy(() =>
+  import(/* webpackChunkName: "Ghost" */ '@/pages/AccessManagement/Role'),
+);
+const UserManagement = lazy(() =>
+  import(/* webpackChunkName: "Ghost" */ '@/pages/AccessManagement/User'),
+);
+const VendorApproval = lazy(() =>
+  import(/* webpackChunkName: "Ghost" */ '@/pages/AdminPanels/VendorApproval'),
 );
 
 const baseRoutes = [
@@ -101,116 +103,67 @@ const baseRoutes = [
   },
 ];
 
-const orderMenus = [
-  {
-    path: 'list',
-    name: 'menus.top.order',
-    component: OrderList,
-    code: 'menu:OrderManagement1',
-    parentCode: 'menu:Order Management',
-    skipAuthentication: true,
-  },
-  {
-    path: 'create',
-    name: 'menus.top.createOrder',
-    component: CreateOrder,
-    code: 'menu:Create New Order',
-    parentCode: 'menu:Order Management',
-    skipAuthentication: true,
-  },
-  {
-    path: 'detail',
-    name: 'menus.top.orderDetails',
-    component: OrderDetail,
-    code: 'component:Setting:OrderDetail',
-    parentCode: 'menu:Order Management',
-    hideInMenu: true,
-    skipAuthentication: true,
-  },
-  {
-    path: 'po-detail',
-    name: 'menus.top.poOrderDetail',
-    component: PoDetail,
-    code: 'component:Setting:PoOrderDetail',
-    parentCode: 'menu:Order Management',
-    hideInMenu: true,
-    skipAuthentication: true,
-  },
-];
-const salesReportMenus = [
-  {
-    path: 'reportByStore',
-    name: 'menus.top.reportByStore',
-    component: ReportByStore,
-    code: 'menu:Sales Report by Store',
-    parentCode: 'menu:Sales Report',
-    skipAuthentication: true,
-  },
-  {
-    path: 'reportByProduct',
-    name: 'menus.top.reportByProduct',
-    component: ReportByProduct,
-    code: 'menu:Sales Report by Product',
-    parentCode: 'menu:Sales Report',
-    skipAuthentication: true,
-  },
-  {
-    path: 'reportByCategory',
-    name: 'menus.top.reportByCategory',
-    component: ReportByCategory,
-    code: 'menu:Sales Report by Category',
-    parentCode: 'menu:Sales Report',
-    skipAuthentication: true,
-  },
-];
-
-// const permissionMenus = [
+// const vendorManagementMenu = [
 //   {
-//     path: 'organization',
-//     name: 'menus.top.organization',
-//     component: Organization,
-//     code: 'organization',
-//     parentCode: 'permissions',
+//     path: 'infomation',
+//     name: 'menus.top.infomation',
+//     component: BusinessInfomation,
+//     code: 'menu:Business Infomation',
+//     parentCode: 'menu:Vendor',
+//     skipAuthentication: true,
 //   },
 //   {
 //     path: 'account',
 //     name: 'menus.top.account',
 //     component: Account,
-//     code: 'account',
-//     parentCode: 'permissions',
+//     code: 'menu:Account Management',
+//     parentCode: 'menu:Vendor',
+//     skipAuthentication: true,
 //   },
 //   {
-//     path: 'menu',
-//     name: 'menus.top.menu',
-//     component: Menu,
-//     code: 'menu',
-//     parentCode: 'permissions',
+//     path: 'locations',
+//     name: 'menus.top.locations',
+//     component: Locations,
+//     code: 'menu:Locations',
+//     parentCode: 'menu:Vendor',
+//     skipAuthentication: true,
 //   },
 // ];
-const settingMenus = [
+
+const adminPanels = [
   {
-    path: 'lossfactor',
-    name: 'menus.top.lossFactor',
-    component: LossFactor,
-    code: 'menu:Loss Factor',
-    parentCode: 'menu:Setting',
+    path: 'vendorApproval',
+    name: 'menus.top.vendorApproval',
+    component: VendorApproval,
+    code: 'menu:Vendor Approval',
+    parentCode: 'menu:Admin Panels',
+    skipAuthentication: true,
+  },
+  // {
+  //   path: 'vendorDetails',
+  //   name: 'menus.top.vendorDetails',
+  //   component: UserManagement,
+  //   code: 'menu:Vendor Details ',
+  //   parentCode: 'menu:Admin Panels',
+  //   skipAuthentication: true,
+  // },
+];
+const accessManagement = [
+  {
+    path: 'role',
+    name: 'menus.top.roleManagement',
+    component: RoleManagement,
+    code: 'menu:Role Management',
+    parentCode: 'menu:Access Management',
     skipAuthentication: true,
   },
   {
-    path: 'saletarget',
-    name: 'menus.top.SalesTargetSetting',
-    component: SalesTargetSetting,
-    code: 'menu:Sales Target Settings',
-    parentCode: 'menu:Setting',
-    skipAuthentication: true,
-  },
-  {
-    path: 'permission',
-    name: 'menus.top.rolePermissionSetting',
-    component: RolePermissionSetting,
-    code: 'menu:Role Permission Setting',
-    parentCode: 'menu:Setting',
+    path: 'user',
+    name: 'menus.top.userManagement',
+    component: UserManagement,
+    code: 'menu:User Management',
+    parentCode: 'menu:Access Management',
     skipAuthentication: true,
   },
 ];
-export { orderMenus, baseRoutes, salesReportMenus, settingMenus };
+export { adminPanels, accessManagement, baseRoutes };
