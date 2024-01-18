@@ -146,7 +146,7 @@ const vendorPanels = [
     name: 'menus.top.approvalCenter',
     component: ApprovalCenter,
     code: 'menu:Approval Center',
-    parentCode: 'menu:Vendor Panels',
+    parentCode: 'menu:Vendor Approval',
     skipAuthentication: true,
   },
   {
@@ -154,7 +154,7 @@ const vendorPanels = [
     name: 'menus.top.approvalWorkflow',
     component: ApprovalWorkflow,
     code: 'menu:Approval Workflow',
-    parentCode: 'menu:Vendor Panels',
+    parentCode: 'menu:Vendor Approval',
     skipAuthentication: true,
   },
   {
@@ -162,7 +162,7 @@ const vendorPanels = [
     name: 'menus.top.approvalDate',
     component: ApprovalDate,
     code: 'menu:Approval Date',
-    parentCode: 'menu:Vendor Panels',
+    parentCode: 'menu:Vendor Approval',
     skipAuthentication: true,
   },
 ];
