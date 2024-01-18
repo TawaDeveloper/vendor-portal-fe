@@ -65,7 +65,7 @@ const BasicLayout: React.FC = () => {
       )}
       rightContentRender={() => <RightContent />}
       onCollapse={setCollapsed}
-      // headerContentRender={() => <ProBreadcrumb />}
+      headerContentRender={() => <ProBreadcrumb />}
       breadcrumbRender={(routers = []) => [
         {
           path: '/',
