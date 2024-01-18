@@ -12,7 +12,7 @@ import { RightContent } from '@/components/GlobalHeader';
 import { PageLoading } from '@/components';
 import { menuTabs } from '@/config/router';
 
-import slogan from '@/assets/99-Ranch-Market.png';
+import slogan from '@/assets/tawa.png';
 import logo from '@/assets/99-logo.png';
 import styles from './BasicLayout.less';
 import { loginStateAtom } from '@/atoms/login';
@@ -65,7 +65,7 @@ const BasicLayout: React.FC = () => {
       )}
       rightContentRender={() => <RightContent />}
       onCollapse={setCollapsed}
-      headerContentRender={() => <ProBreadcrumb />}
+      // headerContentRender={() => <ProBreadcrumb />}
       breadcrumbRender={(routers = []) => [
         {
           path: '/',

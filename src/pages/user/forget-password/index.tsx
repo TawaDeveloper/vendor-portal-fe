@@ -9,7 +9,7 @@ import { t } from 'i18next';
 import { backofficeAPI } from '@/services';
 import { loginStateAtom } from '@/atoms/login';
 import { SelectLang } from '@/components';
-import slogon from '@/assets/99-Ranch-Market.png';
+import slogon from '@/assets/tawa.png';
 
 import styles from './index.less';
 
@@ -85,7 +85,9 @@ const ForgetPassword: React.FC<Props> = (props) => {
             {status === 'error' && !submitting && (
               <LoginMessage content={t<string>('pages.login.errorMessage')} />
             )}
-            <div className={styles.label}>{t<string>('pages.login.account')}</div>
+            <div className={styles.label}>
+              {t<string>('pages.login.account')}
+            </div>
             <Form.Item
               name="username"
               rules={[
@@ -118,7 +120,9 @@ const ForgetPassword: React.FC<Props> = (props) => {
                 placeholder={t<string>('pages.login.enterAccount')}
               />
             </Form.Item>
-            <div className={styles.label}>{t<string>('pages.login.password')}</div>
+            <div className={styles.label}>
+              {t<string>('pages.login.password')}
+            </div>
             <Form.Item
               name="password"
               rules={[
@@ -148,7 +152,9 @@ const ForgetPassword: React.FC<Props> = (props) => {
               />
             </Form.Item>
 
-            <div className={styles.label}>{t<string>('pages.login.newPassword')}</div>
+            <div className={styles.label}>
+              {t<string>('pages.login.newPassword')}
+            </div>
             <Form.Item
               name="password"
               rules={[

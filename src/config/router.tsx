@@ -1,8 +1,8 @@
 import React, { lazy } from 'react';
-import { EditOutlined } from '@ant-design/icons';
 import type { MenuDataItem } from '@ant-design/pro-layout';
 import { accessManagement, vendorPanels, baseRoutes } from './routes';
-
+import VendorApprovalIcon from '@/assets/vender_approval.png';
+import AccessManagementIcon from '@/assets/access_manage.png';
 const SecurityLayout = lazy(() => import('@/layouts/SecurityLayout'));
 
 /** 👇🏻路由配置的接口类型 */
@@ -35,6 +35,18 @@ export interface StaticRouteType extends MenuDataItem {
   fullPath?: string;
 }
 
+const ImageIcon = ({ url }: { url: any }) => {
+  return (
+    <img
+      height={22}
+      style={{ marginRight: 11 }}
+      src={url}
+      className="icon"
+      alt=""
+    />
+  );
+};
+
 // use a request result to instead it.
 const menuTabs: StaticRouteType[] = [
   // {
@@ -49,7 +61,7 @@ const menuTabs: StaticRouteType[] = [
   {
     name: 'menus.top.vendorApproval',
     path: '/vendorApproval',
-    icon: <EditOutlined />,
+    icon: <ImageIcon url={VendorApprovalIcon} />,
     children: vendorPanels,
     code: 'menu:Vendor Approval',
     component: SecurityLayout,
@@ -58,7 +70,7 @@ const menuTabs: StaticRouteType[] = [
   {
     name: 'menus.top.access',
     path: '/access',
-    icon: <EditOutlined />,
+    icon: <ImageIcon url={AccessManagementIcon} />,
     children: accessManagement,
     code: 'menu:Access Management',
     component: SecurityLayout,
