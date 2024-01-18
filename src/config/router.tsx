@@ -47,8 +47,8 @@ const menuTabs: StaticRouteType[] = [
   //   skipAuthentication: true,
   // },
   {
-    name: 'menus.top.vendor',
-    path: '/vendor',
+    name: 'menus.top.vendorApproval',
+    path: '/vendorApproval',
     icon: <EditOutlined />,
     children: vendorPanels,
     code: 'menu:Vendor Approval',

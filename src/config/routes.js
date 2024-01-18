@@ -65,8 +65,16 @@ const UserManagement = lazy(() =>
 );
 const ApprovalCenter = lazy(() =>
   import(
-    /* webpackChunkName: "Ghost" */ '@/pages//VendorApproval/ApprovalCenter'
+    /* webpackChunkName: "Ghost" */ '@/pages/VendorApproval/ApprovalCenter'
   ),
+);
+const ApprovalWorkflow = lazy(() =>
+  import(
+    /* webpackChunkName: "Ghost" */ '@/pages/VendorApproval/ApprovalWorkflow'
+  ),
+);
+const ApprovalDate = lazy(() =>
+  import(/* webpackChunkName: "Ghost" */ '@/pages/VendorApproval/ApprovalDate'),
 );
 
 const baseRoutes = [
