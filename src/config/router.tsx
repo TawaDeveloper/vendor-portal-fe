@@ -1,7 +1,7 @@
 import React, { lazy } from 'react';
 import { EditOutlined } from '@ant-design/icons';
 import type { MenuDataItem } from '@ant-design/pro-layout';
-import { accessManagement, adminPanels, baseRoutes } from './routes';
+import { accessManagement, vendorPanels, baseRoutes } from './routes';
 
 const SecurityLayout = lazy(() => import('@/layouts/SecurityLayout'));
 
@@ -47,11 +47,11 @@ const menuTabs: StaticRouteType[] = [
   //   skipAuthentication: true,
   // },
   {
-    name: 'menus.top.admin',
-    path: '/admin',
+    name: 'menus.top.vendor',
+    path: '/vendor',
     icon: <EditOutlined />,
-    children: adminPanels,
-    code: 'menu:Admin Panels',
+    children: vendorPanels,
+    code: 'menu:Vendor Approval',
     component: SecurityLayout,
     skipAuthentication: true,
   },

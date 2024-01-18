@@ -63,8 +63,10 @@ const RoleManagement = lazy(() =>
 const UserManagement = lazy(() =>
   import(/* webpackChunkName: "Ghost" */ '@/pages/AccessManagement/User'),
 );
-const VendorApproval = lazy(() =>
-  import(/* webpackChunkName: "Ghost" */ '@/pages/AdminPanels/VendorApproval'),
+const ApprovalCenter = lazy(() =>
+  import(
+    /* webpackChunkName: "Ghost" */ '@/pages//VendorApproval/ApprovalCenter'
+  ),
 );
 
 const baseRoutes = [
@@ -130,23 +132,31 @@ const baseRoutes = [
 //   },
 // ];
 
-const adminPanels = [
+const vendorPanels = [
   {
-    path: 'vendorApproval',
-    name: 'menus.top.vendorApproval',
-    component: VendorApproval,
-    code: 'menu:Vendor Approval',
-    parentCode: 'menu:Admin Panels',
+    path: 'approvalCenter',
+    name: 'menus.top.approvalCenter',
+    component: ApprovalCenter,
+    code: 'menu:Approval Center',
+    parentCode: 'menu:Vendor Panels',
     skipAuthentication: true,
   },
-  // {
-  //   path: 'vendorDetails',
-  //   name: 'menus.top.vendorDetails',
-  //   component: UserManagement,
-  //   code: 'menu:Vendor Details ',
-  //   parentCode: 'menu:Admin Panels',
-  //   skipAuthentication: true,
-  // },
+  {
+    path: 'approvalWorkflow',
+    name: 'menus.top.approvalWorkflow',
+    component: ApprovalWorkflow,
+    code: 'menu:Approval Workflow',
+    parentCode: 'menu:Vendor Panels',
+    skipAuthentication: true,
+  },
+  {
+    path: 'approvalDate',
+    name: 'menus.top.approvalDate',
+    component: ApprovalDate,
+    code: 'menu:Approval Date',
+    parentCode: 'menu:Vendor Panels',
+    skipAuthentication: true,
+  },
 ];
 const accessManagement = [
   {
@@ -174,4 +184,4 @@ const accessManagement = [
     skipAuthentication: true,
   },
 ];
-export { adminPanels, accessManagement, baseRoutes };
+export { vendorPanels, accessManagement, baseRoutes };

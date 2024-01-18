@@ -27,7 +27,7 @@ const StatusTextMap = {
   '3': 'Declined',
 };
 
-const VendorApprovals = () => {
+const ApprovalCenter = () => {
   const [form] = Form.useForm();
   const [api, contextHolder] = notification.useNotification();
   console.log('api: ', api);
@@ -222,4 +222,4 @@ const VendorApprovals = () => {
   );
 };
 
-export default VendorApprovals;
+export default ApprovalCenter;
