@@ -10,6 +10,7 @@ import { message } from './message';
 import { finance } from './finance';
 import { bakery } from './bakery';
 import { tawa } from './tawa';
+import { vendorPortal } from './vendorPortal';
 export const bakeryAPI = bakery;
 export const orderAPI = order;
 export const backofficeAPI = backoffice;
@@ -22,7 +23,7 @@ export const warehouseAPI = warehouse;
 export const messageAPI = message;
 export const financeAPI = finance;
 export const tawaAPI = tawa;
-
+export const vendorPortalAPI = vendorPortal;
 export default {
   order,
   backoffice,
@@ -35,6 +36,7 @@ export default {
   warehouse,
   message,
   finance,
-  tawa
+  tawa,
+  vendorPortal
 };
 

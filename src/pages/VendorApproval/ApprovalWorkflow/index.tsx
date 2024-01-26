@@ -12,7 +12,7 @@ import {
 } from 'antd';
 import './index.less';
 import { useCallback, useRef, useState } from 'react';
-import { backofficeAPI } from '@/services';
+import { backofficeAPI, vendorPortalAPI } from '@/services';
 import { TablePaginationConfig } from 'antd/es/table';
 
 const { RangePicker } = DatePicker;
@@ -31,6 +31,7 @@ const ApprovalCenter = () => {
   const [form] = Form.useForm();
   const [api, contextHolder] = notification.useNotification();
   console.log('api: ', api);
+
   const [data, setData] = useState<defs.backoffice.UserRole[]>([]);
   const [loading, setLoading] = useState(false);
   const userIdRef = useRef(0);
@@ -123,6 +124,53 @@ const ApprovalCenter = () => {
   const handleSearch = useCallback((values: Record<string, any>) => {
     console.log('values', values);
   }, []);
+
+  const create = async () => {
+    vendorPortalAPI.wkfModel.createModel.request({
+      "name":"test",
+      "modelType": 2,
+      "id": 15,
+      "nodeList":[
+         {
+             "name":"node1",
+             "nodeType":1,
+             "userIds":"4"
+         },
+         {
+             "name":"node2",
+             "nodeType":0,
+             "userIds":"3,20"
+         },
+         {
+             "name":"node3",
+             "nodeType":0,
+             "userIds":"9"
+         },
+                {
+             "name":"node4",
+             "nodeType":2,
+             "userIds":"11"
+         }
+      ],
+     "nodeRelationList":[
+             {
+                 "name":"relation1",
+                 "sourceNodeName":"node1",
+                 "targetNodeName":"node2"
+             },
+             {
+                 "name":"relation2",
+                 "sourceNodeName":"node2",
+                 "targetNodeName":"node3"
+             },
+                         {
+                 "name":"relation3",
+                 "sourceNodeName":"node3",
+                 "targetNodeName":"node4"
+             }
+           ]
+ })
+  }
 
   const tabs = [
     {
@@ -218,6 +266,9 @@ const ApprovalCenter = () => {
     <Card>
       {contextHolder}
       <Tabs defaultActiveKey="Application" items={tabs}></Tabs>
+      <Button onClick={() => {
+        create()
+      }}>Create</Button>
     </Card>
   );
 };

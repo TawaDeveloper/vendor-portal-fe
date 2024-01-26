@@ -9,8 +9,8 @@
   "pollingTime": 1200,
   "origins": [
     {
-      "name": "bakery",
-      "originUrl": "http://10.89.24.26:8080/hot-deli-bakery/v2/api-docs",
+      "name": "vendorPortal",
+      "originUrl": "http://10.89.24.38:9000/vendor-portal/v2/api-docs",
       "originType": "SwaggerV2",
       "usingOperationId": true
     },
