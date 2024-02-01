@@ -6,7 +6,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { loginStateAtom } from '@/atoms/login';
 import BasicLayout from './BasicLayout';
 import { getPermissionsMenus } from '@/utils/route-utils';
-import { bakeryAPI } from '@/services';
+import { vendorPortalAPI } from '@/services';
 
 // import { backofficeAPI } from '@/services';
 // import { PageLoading } from '@/components';
@@ -18,10 +18,19 @@ const SecurityLayout: React.FC = () => {
   const [loading, setLoading] = useState(false);
   useEffect(() => {
     if (token) {
-      bakeryAPI.account.userInfo.request().then((res) => {
+      vendorPortalAPI.internalPermission.getUserInfo.request().then((res) => {
         if (res.data && res.success) {
           localStorage.setItem('username', res.data.account || '');
           sessionStorage.setItem('bakeryUserInfo', JSON.stringify(res.data));
+        }
+        else {
+          localStorage.removeItem('tawa_sso_token');
+          localStorage.removeItem('username');
+          setLogin({
+            ...login,
+            isLogin: false,
+          });
+
         }
       });
     }

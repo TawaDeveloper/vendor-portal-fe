@@ -80,8 +80,9 @@ const requestHandler = (url: string, options: Record<string, any>) => {
         // token,
         lang,
         'time-pst': moment.tz.guess(),
+        'company': 'walong',
       }
-    : { lang, 'time-pst': moment.tz.guess() };
+    : { lang, 'time-pst': moment.tz.guess(), 'company': 'walong', };
 
   return {
     url,

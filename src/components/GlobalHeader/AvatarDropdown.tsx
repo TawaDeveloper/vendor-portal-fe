@@ -5,7 +5,7 @@ import { t } from 'i18next';
 import { LogoutOutlined } from '@ant-design/icons';
 import { useRequest } from 'ahooks';
 
-import { bakeryAPI } from '@/services';
+import { vendorPortalAPI } from '@/services';
 import { loginStateAtom } from '@/atoms/login';
 
 import HeaderDropdown from '../HeaderDropdown';
@@ -13,7 +13,7 @@ import styles from './index.less';
 
 const AvatarDropdown: React.FC = () => {
   const [login, setLogin] = useRecoilState(loginStateAtom);
-  const { runAsync } = useRequest(bakeryAPI.account.userInfo.request, {
+  const { runAsync } = useRequest(vendorPortalAPI.internalPermission.getUserInfo.request, {
     manual: true,
   });
   const logout = () => {
