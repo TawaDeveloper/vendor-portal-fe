@@ -46,6 +46,9 @@ class ModelCreateParam {
   /** params */
   params = '';
 
+  /** updateBy */
+  updateBy = '';
+
   /** userIds */
   userIds = '';
 }

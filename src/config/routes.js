@@ -1,3 +1,5 @@
+import ContentLayout from '@/layouts/ContentLayout';
+import { t } from 'i18next';
 import { lazy } from 'react';
 
 const UserLogin = lazy(() =>
@@ -71,6 +73,11 @@ const ApprovalCenter = lazy(() =>
 const ApprovalWorkflow = lazy(() =>
   import(
     /* webpackChunkName: "Ghost" */ '@/pages/VendorApproval/ApprovalWorkflow'
+  ),
+);
+const ApprovalWorkflowEdit = lazy(() =>
+  import(
+    /* webpackChunkName: "Ghost" */ '@/pages/VendorApproval/ApprovalWorkflow/Edit'
   ),
 );
 const ApprovalDate = lazy(() =>
@@ -150,12 +157,21 @@ const vendorPanels = [
     skipAuthentication: true,
   },
   {
-    path: 'approvalWorkflow',
-    name: 'menus.top.approvalWorkflow',
+    path: 'ApprovalWorkflow',
+    name: t('menus.top.approvalWorkflow'),
     component: ApprovalWorkflow,
     code: 'menu:Approval Workflow',
     parentCode: 'menu:Vendor Approval',
     skipAuthentication: true,
+  },
+  {
+    path: 'ApprovalWorkflowEdit',
+    name: t('menus.top.approvalWorkflowEdit'),
+    component: ApprovalWorkflowEdit,
+    code: 'menu:Approval Workflow Edit',
+    parentCode: 'menu:Vendor Approval',
+    skipAuthentication: true,
+    hideInMenu: true,
   },
   {
     path: 'approvalDate',

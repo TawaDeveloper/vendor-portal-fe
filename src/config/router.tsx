@@ -60,7 +60,7 @@ const menuTabs: StaticRouteType[] = [
   // },
   {
     name: 'menus.top.vendorApproval',
-    path: '/vendorApproval',
+    path: '/VendorApproval',
     icon: <ImageIcon url={VendorApprovalIcon} />,
     children: vendorPanels,
     code: 'menu:Vendor Approval',

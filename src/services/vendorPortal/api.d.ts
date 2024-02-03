@@ -52,6 +52,9 @@ declare namespace defs {
       /** params */
       params?: string;
 
+      /** updateBy */
+      updateBy?: string;
+
       /** userIds */
       userIds?: string;
     }
@@ -204,6 +207,20 @@ declare namespace API {
           params: searchParam,
           options?: searchOptions,
         ) => searchResponse;
+      }
+
+      /**
+       * 更新工单模板
+       * /api/wkf/model/update
+       */
+      export namespace updateModel {
+        export type updateModelBody = defs.vendorPortal.ModelCreateParam;
+        export type updateModelOptions = Record<string, any>;
+        export type updateModelResponse = defs.vendorPortal.Response<boolean>;
+        export type request = (
+          body: updateModelBody,
+          options?: updateModelOptions,
+        ) => updateModelResponse;
       }
     }
   }

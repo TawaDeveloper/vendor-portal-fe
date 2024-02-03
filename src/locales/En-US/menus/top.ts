@@ -146,4 +146,5 @@ export default {
   approvalWorkflow: 'Approval Workflow',
   approvalDate: 'Approval Date',
   orgManagement: 'Organization Management',
+  approvalWorkflowEdit: 'Approval Workflow Edit',
 };
