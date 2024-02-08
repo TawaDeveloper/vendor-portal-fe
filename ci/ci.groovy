@@ -2,18 +2,15 @@ pipeline {
     agent any
 
     environment {
-        MODULE = "${params.MODULE}"        
-        K8S = "${params.K8S}"
-        ACTIVE_PROFILE = "${params.ACTIVE_PROFILE}"
-        BUILD_PARAM = "${params.BUILD_PARAM}"
+        MODULE = "${params.MODULE}"    
+        BUILD_PARAM = "${params.BUILD_PARAM}" 
+        VM_IP = "${params.VM_IP}"
 
     }
 
 
-
     stages {   
-
-        stage('Building Project for Dev') {
+       stage('Building Project for Dev') {
           steps {
                script {
                     nodejs("NodeJS"){
@@ -30,10 +27,11 @@ pipeline {
                     def branch_name = "${env.BRANCH_NAME}".replaceAll("/", "-")
                     def version = "v${env.BUILD_NUMBER}-${branch_name}"
                     def docker_name = "${MODULE}:${version}"
-                    sh "docker build  -f ./Dockerfile -t ${docker_name} ."
+                    sh "docker build  -f ./Dockerfile -t ${docker_name} --build-arg BUILD_PARAM=${BUILD_PARAM} ."
                     sh "docker tag ${docker_name} 847825268283.dkr.ecr.us-west-1.amazonaws.com/${docker_name}"
+                    env.LOCAL_DOCKER_NAME = "${docker_name}"
                     env.DOCKER_NAME = "847825268283.dkr.ecr.us-west-1.amazonaws.com/${docker_name}"
-                    env.LOCAL_DOCKER_NAME = "${docker_name}" 
+
                 }
             }
         }
@@ -48,63 +46,50 @@ pipeline {
             }
         }
 
-        stage('Create Service') {
+
+
+
+   stage('Deploy to VM') {
             steps {
                 script {
+                    def BASTION_IP = '10.89.24.31'
+                    def TARGET_VM_IP = "${env.VM_IP}"
+                    withCredentials([usernamePassword(credentialsId: 'privateTawa', passwordVariable: 'MY_PASS', usernameVariable: 'MY_USER')]) {
 
-                    withCredentials([[
-                                             $class       : 'AmazonWebServicesCredentialsBinding',
-                                             credentialsId: '65792f65-5335-457f-b3db-f1a7de9d258e',
-                                     ]]) {
+                        // Create the script to be run on the target VM.
+                        writeFile file: 'remote-script.sh', text: """
+                #!/bin/bash
+                
+                aws ecr get-login-password --region us-west-1 | docker login --username AWS --password-stdin 847825268283.dkr.ecr.us-west-1.amazonaws.com
+                
+                ifconfig
+                
+                docker ps --all
+                
+                docker pull ${DOCKER_NAME}
+                
+                CONTAINER_ID=\$(docker ps -q --filter "publish=80")
+                if [ ! -z \$CONTAINER_ID ]; then
+                    docker stop \$CONTAINER_ID
+                    docker rm \$CONTAINER_ID
+                fi
+                docker run -d -p 80:80 ${DOCKER_NAME}
+                """
 
-                        if (env.MODULE == null) {
-                            error("请确保环境变量'MODULE'已被设置。")
-                        }
-                        sh "aws eks update-kubeconfig --region us-west-1 --name ${K8S}"
 
-                        def servicenotExists = sh(
-                                returnStdout: true,
-                                script: "kubectl get svc ${MODULE}-service -n tawa --ignore-not-found"
-                        ).trim().isEmpty()
+                        sh """
+    sshpass -p ${MY_PASS} scp -o StrictHostKeyChecking=no remote-script.sh ${MY_USER}@${BASTION_IP}:~/
+    sshpass -p ${MY_PASS} ssh -o StrictHostKeyChecking=no ${MY_USER}@${BASTION_IP} "
+        sshpass -p ${MY_PASS} scp -o StrictHostKeyChecking=no remote-script.sh ${MY_USER}@${TARGET_VM_IP}:~/
+        sshpass -p ${MY_PASS} ssh -o StrictHostKeyChecking=no ${MY_USER}@${TARGET_VM_IP} 'bash ~/remote-script.sh'
+    "
+"""
 
-                        echo "servicenotExists: ${servicenotExists}"
-                        sh "sed -i 's#{{MODULE}}#${env.MODULE}#g' ./ci/service.yaml"
-                        if (servicenotExists) {
-                            sh 'kubectl apply -f ./ci/service.yaml'
-                        }
+
                     }
                 }
             }
         }
 
-
-        stage('Deploy to EKS') {
-            steps {
-                script {
-                    withCredentials([[
-                                             $class       : 'AmazonWebServicesCredentialsBinding',
-                                             credentialsId: '65792f65-5335-457f-b3db-f1a7de9d258e',
-                                     ]]) {
-                        sh "aws eks update-kubeconfig --region us-west-1 --name ${K8S}"
-                        sh "sed -i 's#{{MODULE}}#${MODULE}#g' ./ci/deployment.yaml"
-                        sh "sed -i 's#{{IMAGE_NAME}}#${DOCKER_NAME}#g' ./ci/deployment.yaml"
-                        sh "cat ./ci/deployment.yaml"
-                        sh 'kubectl apply -f ./ci/deployment.yaml'
-                    }
-                }
-            }
-        }
-
-        stage('Delete Local Image') {
-            steps {
-                script {
-                    sh "docker rmi ${DOCKER_NAME}"
-                    sh "docker rmi ${LOCAL_DOCKER_NAME}"
-                }
-            }
-        }
     }
-    
-        
-    
 }

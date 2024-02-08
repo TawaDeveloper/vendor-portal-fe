@@ -1,29 +1,91 @@
-import { Button, Select } from 'antd';
+import { Button, Select, message } from 'antd';
 import styles from './Edit.less';
 import ContentPanel from '@/components/ContentPanel';
 import { useEffect, useRef, useState } from 'react';
 import { Graph } from '@antv/x6';
 import { useSearchParams } from 'react-router-dom';
 import { vendorPortalAPI } from '@/services';
+import { find } from 'lodash-es';
 // import { vendorPortalAPI } from '@/services';
 // import { searchParam } from '@/services/vendorPortal/mods/wkfModel/search';
 // import MarioListContent from '@tawa/mario-list-content';
 // import { useRequest } from 'ahooks';
 // import { Button } from 'antd';
 // import { t } from 'i18next';
-// const MODEL_TYPE = [
-//   'Screening',
-//   'In depth Review',
-//   'Existing Vendor',
-//   'Vendor Requesting Files',
-// ];
+const MODEL_TYPE = [
+  'Screening',
+  'In depth Review',
+  'Existing Vendor',
+  'Vendor Requesting Files',
+];
+const PRODUCT_CATEGORYS = [
+    "Meat",
+    "Seafood Produce",
+    "Grocery (Dry)",
+    "Houseware"
+]
 
+const DefaultData = {
+    cells: [
+        {
+            "position": {
+                "x": 40,
+                "y": 40
+            },
+            "size": {
+                "width": 150,
+                "height": 40
+            },
+            "attrs": {
+                "text": {
+                    "text": "Vendor Application \n Screening"
+                }
+            },
+            "visible": true,
+            "shape": "rect",
+            "id": "Approval Type",
+            "zIndex": 1
+        },
+        {
+            "position": {
+                "x": 40,
+                "y": 140
+            },
+            "size": {
+                "width": 150,
+                "height": 40
+            },
+            "attrs": {
+                "text": {
+                    "text": "Product Category \n Meat"
+                }
+            },
+            "visible": true,
+            "shape": "rect",
+            "id": "Product Category",
+            "zIndex": 1
+        },
+        {
+            "shape": "edge",
+            "id": "edge1",
+            "source": {
+                "cell": "Approval Type"
+            },
+            "target": {
+                "cell": "Product Category"
+            },
+            "zIndex": 1
+        }
+    ]
+}
 const ApprovalWorkflowEdit = () => {
   const instance = useRef<Graph | null>(null);
   const [searchParams] = useSearchParams();
   const mode = searchParams.get("mode");
   const [data, setData] = useState<any>(null);
   const [modelType, setModelType] = useState(0);
+  const [productCategory, setProductCategory] = useState(0);
+ 
   const save = async () => {
     if (mode === "create") {
         vendorPortalAPI.wkfModel.createModel.request({
@@ -32,15 +94,29 @@ const ApprovalWorkflowEdit = () => {
             modelType,
             nodeList: [],
             nodeRelationList: [],
-           // modelType: 
+        }).then((response) => {
+            if (response.success === true) {
+                message.success(`Update Success!`)
+            }
+            else {
+                message.error(`Update Fail! ${response.message}`)
+            }
         })
     }
     if (mode === "update") {
         vendorPortalAPI.wkfModel.updateModel.request({
             id: Number(searchParams.get("id")),
+            data: JSON.stringify(instance.current?.toJSON()),
             modelType,
             nodeList: [],
             nodeRelationList: [],
+        }).then((response) => {
+            if (response.success === true) {
+                message.success(`Update Success!`)
+            }
+            else {
+                message.error(`Update Fail! ${response.message}`)
+            }
         })
     }
     
@@ -73,47 +149,25 @@ const ApprovalWorkflowEdit = () => {
 
   useEffect(() => {
     if (mode == "create") {
-        setData([
-            {
-              id: 'Approval Type',
-              x: 40,
-              y: 40,
-              width: 150,
-              height: 40,
-              label: 'Vendor Application \n Screening',
-              shape: 'rect',
-            },
-            {
-              id: 'Product Category',
-              x: 40,
-              y: 140,
-              width: 150,
-              height: 40,
-              label: 'Product Category \n Meat',
-              shape: 'rect',
-            },
-            {
-              id: 'edge1',
-              source: 'Approval Type',
-              target: 'Product Category',
-              shape: 'edge',
-            },
-          ])
+        setData(DefaultData)
     }
     if (mode == "update") {
         const modelId = searchParams.get("id");
         vendorPortalAPI.wkfModel.getDetail.request({
             modelId: Number(modelId)
            // modelType: 
+        }).then((response) => {
+            if (response.success === true && response.data) {
+                setData(JSON.parse(response.data.data));
+                setModelType(response.data.modelType);
+            }
         })
     }
   }, [])
 
   useEffect(() => {
-    if (mode === "create") {
-        if (instance.current && data) {
-            instance.current.fromJSON(data);
-        }
+    if (instance.current && data) {
+        instance.current.fromJSON(data);
     }
   }, [instance.current, data])
   return (
@@ -129,28 +183,58 @@ const ApprovalWorkflowEdit = () => {
           </div>  
           <div>
             Approval Details:
-            <Select defaultValue={0} className={styles.select} value={modelType} onChange={(value) => {
-                setModelType(value)
+            <Select className={styles.select} value={modelType} onChange={(value) => {
+                setModelType(value);
+                setData((data: any) => {
+                    if (data) {
+                        const newData = {...data};
+                        const node = find(newData.cells, (item) => {
+                            return item.id === "Approval Type";
+                        })
+                        if (node) {
+                            node.attrs.text.text = `Vendor Application \n ${MODEL_TYPE[value]}`
+                        }
+                        return newData;
+                    }
+                    return data;
+                })
             }}>
-              <Select.Option value={0}>Screening</Select.Option>
-              <Select.Option value={1}>In-depth-Review</Select.Option>
-              <Select.Option value={2}>Existing Vendor</Select.Option>
-              <Select.Option value={3}>Vendor Requesting Files</Select.Option>
+                {MODEL_TYPE.map((value, index) => {
+                    return  <Select.Option key={index} value={index}>{value}</Select.Option>
+                })}
+             
+           
             </Select>
           </div>
         </div>
         <div className={styles.formItemRow}>
           <div>
             Product Category:
-            <Select defaultValue={0} className={styles.select}>
-              <Select.Option value={0}>Meat</Select.Option>
-              <Select.Option value={1}>Seafood Produce</Select.Option>
-              <Select.Option value={2}>Grocery (Dry)</Select.Option>
-              <Select.Option value={3}>Houseware</Select.Option>
+            <Select defaultValue={0} className={styles.select} value={productCategory} onChange={(value) => {
+                setProductCategory(value);
+                setData((data: any) => {
+                    if (data) {
+                        const newData = {...data};
+                        const node = find(newData.cells, (item) => {
+                            return item.id === "Product Category";
+                        })
+                        if (node) {
+                            node.attrs.text.text = `Product Category \n ${PRODUCT_CATEGORYS[value]}`
+                        }
+                        return newData;
+                    }
+                    return data;
+                })
+            }}>
+                {
+                    PRODUCT_CATEGORYS.map((value, index) => {
+                        return  <Select.Option key={index} value={index}>{value}</Select.Option>
+                    })
+                }
             </Select> 
           </div>
           <div>
-            Product Details:{' '}
+            Product Details:
             <Select defaultValue={0} className={styles.select}></Select>
           </div>
         </div>
