@@ -68,12 +68,12 @@ pipeline {
                 
                 docker pull ${DOCKER_NAME}
                 
-                CONTAINER_ID=\$(docker ps -q --filter "publish=80")
+                CONTAINER_ID=\$(docker ps -q --filter "publish=8000")
                 if [ ! -z \$CONTAINER_ID ]; then
                     docker stop \$CONTAINER_ID
                     docker rm \$CONTAINER_ID
                 fi
-                docker run -d -p 80:80 ${DOCKER_NAME}
+                docker run -d -p 8000:80 ${DOCKER_NAME}
                 """
 
 
