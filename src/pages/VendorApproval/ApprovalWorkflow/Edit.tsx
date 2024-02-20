@@ -1,10 +1,13 @@
 import { Button, Select, message } from 'antd';
 import styles from './Edit.less';
 import ContentPanel from '@/components/ContentPanel';
-import { useEffect, useRef, useState } from 'react';
-import { Graph } from '@antv/x6';
+import { useEffect, useState } from 'react';
+
 import { useSearchParams } from 'react-router-dom';
 import { vendorPortalAPI } from '@/services';
+// import { find } from 'lodash-es';
+import WorkflowGraphEditor from './WorkflowGraphEditor';
+import { INode, createUuid } from 'react-flow-builder';
 import { find } from 'lodash-es';
 // import { vendorPortalAPI } from '@/services';
 // import { searchParam } from '@/services/vendorPortal/mods/wkfModel/search';
@@ -25,88 +28,36 @@ const PRODUCT_CATEGORYS = [
     "Houseware"
 ]
 
-const DefaultData = {
-    cells: [
-        {
-            "position": {
-                "x": 40,
-                "y": 40
-            },
-            "size": {
-                "width": 150,
-                "height": 40
-            },
-            "attrs": {
-                "text": {
-                    "text": "Vendor Application \n Screening"
-                }
-            },
-            "visible": true,
-            "shape": "rect",
-            "id": "Approval Type",
-            "zIndex": 1
-        },
-        {
-            "position": {
-                "x": 40,
-                "y": 140
-            },
-            "size": {
-                "width": 150,
-                "height": 40
-            },
-            "attrs": {
-                "text": {
-                    "text": "Product Category \n Meat"
-                }
-            },
-            "visible": true,
-            "shape": "rect",
-            "id": "Product Category",
-            "zIndex": 1
-        },
-        {
-            "shape": "edge",
-            "id": "edge1",
-            "source": {
-                "cell": "Approval Type"
-            },
-            "target": {
-                "cell": "Product Category"
-            },
-            "zIndex": 1
-        }
-    ]
-}
+
 const ApprovalWorkflowEdit = () => {
-  const instance = useRef<Graph | null>(null);
+  
   const [searchParams] = useSearchParams();
   const mode = searchParams.get("mode");
-  const [data, setData] = useState<any>(null);
+  const [nodes, setNodes] = useState<INode[]>([])
   const [modelType, setModelType] = useState(0);
   const [productCategory, setProductCategory] = useState(0);
- 
+  
   const save = async () => {
     if (mode === "create") {
         vendorPortalAPI.wkfModel.createModel.request({
             name: `${new Date().getTime()}`,
-            data: JSON.stringify(instance.current?.toJSON()),
+            data: JSON.stringify(nodes),
             modelType,
             nodeList: [],
             nodeRelationList: [],
         }).then((response) => {
             if (response.success === true) {
-                message.success(`Update Success!`)
+                message.success(`Create Success!`)
             }
             else {
-                message.error(`Update Fail! ${response.message}`)
+                message.error(`Create Fail! ${response.message}`)
             }
         })
     }
     if (mode === "update") {
         vendorPortalAPI.wkfModel.updateModel.request({
             id: Number(searchParams.get("id")),
-            data: JSON.stringify(instance.current?.toJSON()),
+            data: JSON.stringify(nodes),
             modelType,
             nodeList: [],
             nodeRelationList: [],
@@ -121,35 +72,42 @@ const ApprovalWorkflowEdit = () => {
     }
     
   }
-  useEffect(() => {
-    const graph = new Graph({
-      container: document.getElementById('workflow-edit-contaier') as any,
-      background: {
-        color: '#F2F7FA',
-      },
-      grid: {
-        visible: true,
-        type: 'doubleMesh',
-        args: [
-          {
-            color: '#eee', // 主网格线颜色
-            thickness: 1, // 主网格线宽度
-          },
-          {
-            color: '#ddd', // 次网格线颜色
-            thickness: 1, // 次网格线宽度
-            factor: 4, // 主次网格线间隔
-          },
-        ],
-      },
-    });
+  const createDefaultWorkflow = () => {
+    setNodes([
+      {
+       id: createUuid("node"),
+       type: 'start',
+       name: 'Start Node',
+       data: {
+         value: 0,
+         label: MODEL_TYPE[0]
+       },
+       path: ['0'],
+     },
+     {
+       id: createUuid("node"),
+       type: 'product-node',
+       name: 'Product Node',
+       data: {
+         value: 0,
+         label: PRODUCT_CATEGORYS[0]
+       },
+       path: ['1'],
+     }, 
+     {
+       id: createUuid("node"),
+       type: 'end',
+       name: 'End',
 
-    instance.current = graph;
-  }, []);
+       path: ['2'],
+     }, 
+   ])
+  }
 
   useEffect(() => {
     if (mode == "create") {
-        setData(DefaultData)
+      createDefaultWorkflow()
+       
     }
     if (mode == "update") {
         const modelId = searchParams.get("id");
@@ -158,18 +116,38 @@ const ApprovalWorkflowEdit = () => {
            // modelType: 
         }).then((response) => {
             if (response.success === true && response.data) {
-                setData(JSON.parse(response.data.data));
-                setModelType(response.data.modelType);
+               // setData(JSON.parse(response.data.data));
+                try {
+                  const saveNodes = JSON.parse(response.data.data);
+                  if (saveNodes) {
+                    setNodes(saveNodes)
+                    const node = find(saveNodes, (saveNode) => {
+                      return saveNode.type === "product-node"
+                    });
+                    if (node) {
+                      setProductCategory(node.data.value)
+                    }
+                    setModelType(response.data.modelType);
+                  }
+                  else {
+                    createDefaultWorkflow()
+                  }
+         
+                }
+                catch (error) {
+                  createDefaultWorkflow()
+                }
+       
             }
         })
     }
   }, [])
 
-  useEffect(() => {
-    if (instance.current && data) {
-        instance.current.fromJSON(data);
-    }
-  }, [instance.current, data])
+  // useEffect(() => {
+  //   if (instance.current && data) {
+  //       instance.current.fromJSON(data);
+  //   }
+  // }, [instance.current, data])
   return (
     <ContentPanel>
       <div className={styles.header}>
@@ -185,14 +163,17 @@ const ApprovalWorkflowEdit = () => {
             Approval Details:
             <Select className={styles.select} value={modelType} onChange={(value) => {
                 setModelType(value);
-                setData((data: any) => {
+                setNodes((data: any) => {
                     if (data) {
-                        const newData = {...data};
-                        const node = find(newData.cells, (item) => {
-                            return item.id === "Approval Type";
+                        const newData = [...data];
+                        const node = find(newData, (item) => {
+                            return item.type == "start"
                         })
                         if (node) {
-                            node.attrs.text.text = `Vendor Application \n ${MODEL_TYPE[value]}`
+                            node.data = {
+                              value: value,
+                              label: MODEL_TYPE[value]
+                            }
                         }
                         return newData;
                     }
@@ -212,19 +193,22 @@ const ApprovalWorkflowEdit = () => {
             Product Category:
             <Select defaultValue={0} className={styles.select} value={productCategory} onChange={(value) => {
                 setProductCategory(value);
-                setData((data: any) => {
-                    if (data) {
-                        const newData = {...data};
-                        const node = find(newData.cells, (item) => {
-                            return item.id === "Product Category";
-                        })
-                        if (node) {
-                            node.attrs.text.text = `Product Category \n ${PRODUCT_CATEGORYS[value]}`
-                        }
-                        return newData;
-                    }
-                    return data;
-                })
+                setNodes((data: any) => {
+                  if (data) {
+                      const newData = [...data];
+                      const node = find(newData, (item) => {
+                          return item.type == "product-node"
+                      })
+                      if (node) {
+                          node.data = {
+                            value: value,
+                            label: PRODUCT_CATEGORYS[value]
+                          }
+                      }
+                      return newData;
+                  }
+                  return data;
+              })
             }}>
                 {
                     PRODUCT_CATEGORYS.map((value, index) => {
@@ -247,10 +231,11 @@ const ApprovalWorkflowEdit = () => {
       </div>
      
 
-      <div
-        id="workflow-edit-contaier"
-        className={styles.workflowEditContaier}
-      ></div>
+  
+      <WorkflowGraphEditor nodes={nodes} onChange={(newNodes) => {
+        setNodes(newNodes)
+      }}></WorkflowGraphEditor>
+ 
      
     </ContentPanel>
   );

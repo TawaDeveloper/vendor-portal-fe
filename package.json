@@ -41,7 +41,6 @@
   "dependencies": {
     "@ant-design/charts": "^1.4.2",
     "@ant-design/pro-layout": "^6.38.19",
-    "@antv/x6": "^2.18.1",
     "@tawa/mario-config-provider": "^0.2.3",
     "@tawa/mario-form": "^0.2.6",
     "@tawa/mario-hooks": "^0.2.3",
@@ -69,6 +68,7 @@
     "qs": "^6.11.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-flow-builder": "^2.6.0",
     "react-i18next": "^11.18.3",
     "react-router-dom": "^6.3.0",
     "react-to-print": "^2.14.13",
