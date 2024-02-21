@@ -9,6 +9,8 @@ import styles from "./WorkflowGraphEditor.less";
 import NodeAppTypeIcon from "src/assets/node_app_type.svg"
 import NodeProductTypeIcon from "src/assets/node_product_type.svg"
 import NodeReviewerIcon from "src/assets/node_reviewer.svg"
+import NodeApproveIcon from "src/assets/node_approve.svg"
+import NodeRejectIcon from "src/assets/node_reject.svg"
 import { Drawer, Popconfirm, Popover } from 'antd';
 import ConfigReviewer from './ConfigReviewer';
 
@@ -60,13 +62,15 @@ const EndNodeDisplay: React.FC = () => {
 
 const ConditionNodeDisplay: React.FC = () => {
   const node = useContext(NodeContext);
+  console.log(node.path)
+
+  const isApprove = node && node.path && (node.path[node.path.length - 1] == "0")
+  const isReject =  node && node.path && (node.path[node.path.length - 1] == "1")
   return (
-    <div
-      className={`condition-node ${
-        node.configuring ? 'node-configuring' : ''
-      } ${node.validateStatusError ? 'node-status-error' : ''}`}
-    >
-      {node.data ? node.data.name : node.name}
+    <div className={styles.conditionNode}>
+      {isApprove && <><img src={NodeApproveIcon} /><div>If approve</div></>}
+      {isReject && <><img src={NodeRejectIcon} /><div>If reject</div></>}
+
     </div>
   );
 };
@@ -102,11 +106,13 @@ const registerNodes: IRegisterNode[] = [
     type: 'condition',
     name: '条件节点',
     displayComponent: ConditionNodeDisplay,
+
   },
   {
     type: 'branch',
     name: 'Add If',
     conditionNodeType: 'condition',
+    conditionMaxNum: 2,
   },
 
 ];
@@ -189,6 +195,9 @@ const WorkflowGraphEditor = ({nodes, onChange} : Props) => {
         PopoverComponent={Popover}
         PopconfirmComponent={Popconfirm}
         showArrow={true}
+        onAddNodeSuccess={(type, node) => {
+          console.log(type, node)
+        }}
       />
     </>
   );

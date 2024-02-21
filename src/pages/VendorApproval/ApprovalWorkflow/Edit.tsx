@@ -8,7 +8,7 @@ import { vendorPortalAPI } from '@/services';
 // import { find } from 'lodash-es';
 import WorkflowGraphEditor from './WorkflowGraphEditor';
 import { INode, createUuid } from 'react-flow-builder';
-import { find } from 'lodash-es';
+import { find, isArray } from 'lodash-es';
 // import { vendorPortalAPI } from '@/services';
 // import { searchParam } from '@/services/vendorPortal/mods/wkfModel/search';
 // import MarioListContent from '@tawa/mario-list-content';
@@ -119,7 +119,7 @@ const ApprovalWorkflowEdit = () => {
                // setData(JSON.parse(response.data.data));
                 try {
                   const saveNodes = JSON.parse(response.data.data);
-                  if (saveNodes) {
+                  if (saveNodes && isArray(saveNodes)) {
                     setNodes(saveNodes)
                     const node = find(saveNodes, (saveNode) => {
                       return saveNode.type === "product-node"
