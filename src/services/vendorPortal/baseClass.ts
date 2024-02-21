@@ -9,6 +9,23 @@ class CommonReturn {
   msg = '';
 }
 
+class IPage {
+  /** current */
+  current = undefined;
+
+  /** pages */
+  pages = undefined;
+
+  /** records */
+  records = [];
+
+  /** size */
+  size = undefined;
+
+  /** total */
+  total = undefined;
+}
+
 class ModelCreateParam {
   /** comment */
   comment = '';
@@ -98,10 +115,68 @@ class UserInfoVO {
   userId = undefined;
 }
 
+class UserListDTO {
+  /** 组织 id */
+  departmentId = undefined;
+
+  /** 邮件 */
+  email = '';
+
+  /** 姓名 */
+  name = '';
+
+  /** pageNum */
+  pageNum = undefined;
+
+  /** pageSize */
+  pageSize = undefined;
+
+  /** 角色 id */
+  roleId = undefined;
+
+  /** 最大更新时间 */
+  updatedAtEnd = '';
+
+  /** 最小更新时间 */
+  updatedAtStart = '';
+}
+
+class UserListItem {
+  /** 组织名称列表 */
+  departmentNameList = [];
+
+  /** 邮件 */
+  email = '';
+
+  /** id */
+  id = undefined;
+
+  /** 姓名 */
+  name = '';
+
+  /** 角色名称列表 */
+  rolNameList = [];
+
+  /** 更新时间 */
+  updatedTime = '';
+}
+
+class UserListOptionVO {
+  /** 组织列表（树） */
+  organizations = [];
+
+  /** 角色列表 */
+  roles = [];
+}
+
 export const vendorPortal = {
   CommonReturn,
+  IPage,
   ModelCreateParam,
   PermissionVO,
   Response,
   UserInfoVO,
+  UserListDTO,
+  UserListItem,
+  UserListOptionVO,
 };

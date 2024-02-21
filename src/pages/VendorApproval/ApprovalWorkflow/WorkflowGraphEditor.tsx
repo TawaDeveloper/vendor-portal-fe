@@ -10,6 +10,7 @@ import NodeAppTypeIcon from "src/assets/node_app_type.svg"
 import NodeProductTypeIcon from "src/assets/node_product_type.svg"
 import NodeReviewerIcon from "src/assets/node_reviewer.svg"
 import { Drawer, Popconfirm, Popover } from 'antd';
+import ConfigReviewer from './ConfigReviewer';
 
 const StartNodeDisplay: React.FC = () => {
   const node = useContext(NodeContext);
@@ -44,7 +45,7 @@ const ReviewNodeDisplay: React.FC = () => {
       <div className={styles.nodeIcon}><img src={NodeReviewerIcon} /></div>
       <div className={styles.nodeDesc}>
       <div className={styles.text1}>Reviewer</div>
-      <div className={styles.text2}>{node.name}</div>
+      <div className={styles.text2}>{node && node.data ? node.data.userName: ""}</div>
       </div>
     </div>
   );
@@ -87,12 +88,15 @@ const registerNodes: IRegisterNode[] = [
     type: 'product-node',
     name: '产品节点',
     displayComponent: ProductNodeDisplay,
+    className: "product-node",
+    isStart: true
 
   },
   {
     type: 'review-node',
-    name: '审批节点',
+    name: 'Add Reviewer',
     displayComponent: ReviewNodeDisplay,
+    configComponent: ConfigReviewer
   },
   {
     type: 'condition',
@@ -101,7 +105,7 @@ const registerNodes: IRegisterNode[] = [
   },
   {
     type: 'branch',
-    name: '分支节点',
+    name: 'Add If',
     conditionNodeType: 'condition',
   },
 

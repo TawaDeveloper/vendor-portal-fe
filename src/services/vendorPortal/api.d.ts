@@ -15,6 +15,23 @@ declare namespace defs {
       msg?: string;
     }
 
+    export class IPage<T0 = any> {
+      /** current */
+      current?: number;
+
+      /** pages */
+      pages?: number;
+
+      /** records */
+      records?: Array<T0>;
+
+      /** size */
+      size?: number;
+
+      /** total */
+      total?: number;
+    }
+
     export class ModelCreateParam {
       /** comment */
       comment?: string;
@@ -103,6 +120,60 @@ declare namespace defs {
       /** 用户id */
       userId?: number;
     }
+
+    export class UserListDTO {
+      /** 组织 id */
+      departmentId?: number;
+
+      /** 邮件 */
+      email?: string;
+
+      /** 姓名 */
+      name?: string;
+
+      /** pageNum */
+      pageNum?: number;
+
+      /** pageSize */
+      pageSize?: number;
+
+      /** 角色 id */
+      roleId?: number;
+
+      /** 最大更新时间 */
+      updatedAtEnd?: string;
+
+      /** 最小更新时间 */
+      updatedAtStart?: string;
+    }
+
+    export class UserListItem {
+      /** 组织名称列表 */
+      departmentNameList?: Array<string>;
+
+      /** 邮件 */
+      email?: string;
+
+      /** id */
+      id?: number;
+
+      /** 姓名 */
+      name?: string;
+
+      /** 角色名称列表 */
+      rolNameList?: Array<string>;
+
+      /** 更新时间 */
+      updatedTime?: string;
+    }
+
+    export class UserListOptionVO {
+      /** 组织列表（树） */
+      organizations?: Array<defs.vendorPortal.OrganizationTree>;
+
+      /** 角色列表 */
+      roles?: Array<defs.vendorPortal.OptionVO>;
+    }
   }
 }
 
@@ -136,6 +207,40 @@ declare namespace API {
         export type request = (
           options?: getUserInfoOptions,
         ) => getUserInfoResponse;
+      }
+    }
+
+    /**
+     * Internal 用户管理
+     */
+    export namespace internalUser {
+      /**
+       * 查询用户列表条件选项
+       * /internal/user/list/option
+       */
+      export namespace getUserListOption {
+        export type getUserListOptionOptions = Record<string, any>;
+        export type getUserListOptionResponse =
+          defs.vendorPortal.Response<defs.vendorPortal.UserListOptionVO>;
+        export type request = (
+          options?: getUserListOptionOptions,
+        ) => getUserListOptionResponse;
+      }
+
+      /**
+       * 查询用户列表
+       * /internal/user/list/page
+       */
+      export namespace getUserListForPage {
+        export type getUserListForPageBody = defs.vendorPortal.UserListDTO;
+        export type getUserListForPageOptions = Record<string, any>;
+        export type getUserListForPageResponse = defs.vendorPortal.Response<
+          defs.vendorPortal.IPage<defs.vendorPortal.UserListItem>
+        >;
+        export type request = (
+          body: getUserListForPageBody,
+          options?: getUserListForPageOptions,
+        ) => getUserListForPageResponse;
       }
     }
 

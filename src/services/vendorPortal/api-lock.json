@@ -151,6 +151,184 @@
       ]
     },
     {
+      "description": "Internal 用户管理",
+      "name": "internalUser",
+      "interfaces": [
+        {
+          "description": "查询用户列表条件选项",
+          "name": "getUserListOption",
+          "method": "get",
+          "path": "/internal/user/list/option",
+          "response": {
+            "typeArgs": [
+              {
+                "typeArgs": [],
+                "typeName": "UserListOptionVO",
+                "isDefsType": true,
+                "templateIndex": -1,
+                "compileTemplateKeyword": "#/definitions/",
+                "enum": [],
+                "typeProperties": []
+              }
+            ],
+            "typeName": "Response",
+            "isDefsType": true,
+            "templateIndex": -1,
+            "compileTemplateKeyword": "#/definitions/",
+            "enum": [],
+            "typeProperties": []
+          },
+          "parameters": [
+            {
+              "in": "header",
+              "description": "token value",
+              "name": "Authorization",
+              "required": false,
+              "dataType": {
+                "typeArgs": [],
+                "typeName": "string",
+                "isDefsType": false,
+                "templateIndex": -1,
+                "compileTemplateKeyword": "#/definitions/",
+                "enum": [],
+                "typeProperties": []
+              }
+            },
+            {
+              "in": "header",
+              "description": "company code [walong、tawa]",
+              "name": "company",
+              "required": false,
+              "dataType": {
+                "typeArgs": [],
+                "typeName": "string",
+                "isDefsType": false,
+                "templateIndex": -1,
+                "compileTemplateKeyword": "#/definitions/",
+                "enum": [],
+                "typeProperties": []
+              }
+            },
+            {
+              "in": "header",
+              "description": "language [en_US, zh_CN, zh_TW]",
+              "name": "lang",
+              "required": false,
+              "dataType": {
+                "typeArgs": [],
+                "typeName": "string",
+                "isDefsType": false,
+                "templateIndex": -1,
+                "compileTemplateKeyword": "#/definitions/",
+                "enum": [],
+                "typeProperties": []
+              }
+            }
+          ]
+        },
+        {
+          "consumes": [
+            "application/json"
+          ],
+          "description": "查询用户列表",
+          "name": "getUserListForPage",
+          "method": "post",
+          "path": "/internal/user/list/page",
+          "response": {
+            "typeArgs": [
+              {
+                "typeArgs": [
+                  {
+                    "typeArgs": [],
+                    "typeName": "UserListItem",
+                    "isDefsType": true,
+                    "templateIndex": -1,
+                    "compileTemplateKeyword": "#/definitions/",
+                    "enum": [],
+                    "typeProperties": []
+                  }
+                ],
+                "typeName": "IPage",
+                "isDefsType": true,
+                "templateIndex": -1,
+                "compileTemplateKeyword": "#/definitions/",
+                "enum": [],
+                "typeProperties": []
+              }
+            ],
+            "typeName": "Response",
+            "isDefsType": true,
+            "templateIndex": -1,
+            "compileTemplateKeyword": "#/definitions/",
+            "enum": [],
+            "typeProperties": []
+          },
+          "parameters": [
+            {
+              "in": "header",
+              "description": "token value",
+              "name": "Authorization",
+              "required": false,
+              "dataType": {
+                "typeArgs": [],
+                "typeName": "string",
+                "isDefsType": false,
+                "templateIndex": -1,
+                "compileTemplateKeyword": "#/definitions/",
+                "enum": [],
+                "typeProperties": []
+              }
+            },
+            {
+              "in": "header",
+              "description": "company code [walong、tawa]",
+              "name": "company",
+              "required": false,
+              "dataType": {
+                "typeArgs": [],
+                "typeName": "string",
+                "isDefsType": false,
+                "templateIndex": -1,
+                "compileTemplateKeyword": "#/definitions/",
+                "enum": [],
+                "typeProperties": []
+              }
+            },
+            {
+              "in": "body",
+              "description": "dto",
+              "name": "dto",
+              "required": true,
+              "dataType": {
+                "typeArgs": [],
+                "typeName": "UserListDTO",
+                "isDefsType": true,
+                "templateIndex": -1,
+                "compileTemplateKeyword": "#/definitions/",
+                "enum": [],
+                "typeProperties": []
+              }
+            },
+            {
+              "in": "header",
+              "description": "language [en_US, zh_CN, zh_TW]",
+              "name": "lang",
+              "required": false,
+              "dataType": {
+                "typeArgs": [],
+                "typeName": "string",
+                "isDefsType": false,
+                "templateIndex": -1,
+                "compileTemplateKeyword": "#/definitions/",
+                "enum": [],
+                "typeProperties": []
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
       "description": "Approval工单模板",
       "name": "wkfModel",
       "interfaces": [
@@ -653,6 +831,97 @@
       ]
     },
     {
+      "name": "IPage",
+      "templateArgs": [
+        {
+          "typeArgs": [],
+          "typeName": "RoleListItem",
+          "isDefsType": true,
+          "templateIndex": -1,
+          "compileTemplateKeyword": "#/definitions/",
+          "enum": [],
+          "typeProperties": []
+        }
+      ],
+      "properties": [
+        {
+          "dataType": {
+            "typeArgs": [],
+            "typeName": "number",
+            "isDefsType": false,
+            "templateIndex": -1,
+            "compileTemplateKeyword": "#/definitions/",
+            "enum": [],
+            "typeProperties": []
+          },
+          "name": "current",
+          "required": false
+        },
+        {
+          "dataType": {
+            "typeArgs": [],
+            "typeName": "number",
+            "isDefsType": false,
+            "templateIndex": -1,
+            "compileTemplateKeyword": "#/definitions/",
+            "enum": [],
+            "typeProperties": []
+          },
+          "name": "pages",
+          "required": false
+        },
+        {
+          "dataType": {
+            "typeArgs": [
+              {
+                "typeArgs": [],
+                "typeName": "RoleListItem",
+                "isDefsType": true,
+                "templateIndex": 0,
+                "compileTemplateKeyword": "#/definitions/",
+                "enum": [],
+                "typeProperties": []
+              }
+            ],
+            "typeName": "Array",
+            "isDefsType": false,
+            "templateIndex": -1,
+            "compileTemplateKeyword": "#/definitions/",
+            "enum": [],
+            "typeProperties": []
+          },
+          "name": "records",
+          "required": false
+        },
+        {
+          "dataType": {
+            "typeArgs": [],
+            "typeName": "number",
+            "isDefsType": false,
+            "templateIndex": -1,
+            "compileTemplateKeyword": "#/definitions/",
+            "enum": [],
+            "typeProperties": []
+          },
+          "name": "size",
+          "required": false
+        },
+        {
+          "dataType": {
+            "typeArgs": [],
+            "typeName": "number",
+            "isDefsType": false,
+            "templateIndex": -1,
+            "compileTemplateKeyword": "#/definitions/",
+            "enum": [],
+            "typeProperties": []
+          },
+          "name": "total",
+          "required": false
+        }
+      ]
+    },
+    {
       "name": "ModelCreateParam",
       "templateArgs": [],
       "properties": [
@@ -1098,6 +1367,289 @@
           },
           "name": "userId",
           "description": "用户id",
+          "required": false
+        }
+      ]
+    },
+    {
+      "description": "查询用户列表参数",
+      "name": "UserListDTO",
+      "templateArgs": [],
+      "properties": [
+        {
+          "dataType": {
+            "typeArgs": [],
+            "typeName": "number",
+            "isDefsType": false,
+            "templateIndex": -1,
+            "compileTemplateKeyword": "#/definitions/",
+            "enum": [],
+            "typeProperties": []
+          },
+          "name": "departmentId",
+          "description": "组织 id",
+          "required": false
+        },
+        {
+          "dataType": {
+            "typeArgs": [],
+            "typeName": "string",
+            "isDefsType": false,
+            "templateIndex": -1,
+            "compileTemplateKeyword": "#/definitions/",
+            "enum": [],
+            "typeProperties": []
+          },
+          "name": "email",
+          "description": "邮件",
+          "required": false
+        },
+        {
+          "dataType": {
+            "typeArgs": [],
+            "typeName": "string",
+            "isDefsType": false,
+            "templateIndex": -1,
+            "compileTemplateKeyword": "#/definitions/",
+            "enum": [],
+            "typeProperties": []
+          },
+          "name": "name",
+          "description": "姓名",
+          "required": false
+        },
+        {
+          "dataType": {
+            "typeArgs": [],
+            "typeName": "number",
+            "isDefsType": false,
+            "templateIndex": -1,
+            "compileTemplateKeyword": "#/definitions/",
+            "enum": [],
+            "typeProperties": []
+          },
+          "name": "pageNum",
+          "required": false
+        },
+        {
+          "dataType": {
+            "typeArgs": [],
+            "typeName": "number",
+            "isDefsType": false,
+            "templateIndex": -1,
+            "compileTemplateKeyword": "#/definitions/",
+            "enum": [],
+            "typeProperties": []
+          },
+          "name": "pageSize",
+          "required": false
+        },
+        {
+          "dataType": {
+            "typeArgs": [],
+            "typeName": "number",
+            "isDefsType": false,
+            "templateIndex": -1,
+            "compileTemplateKeyword": "#/definitions/",
+            "enum": [],
+            "typeProperties": []
+          },
+          "name": "roleId",
+          "description": "角色 id",
+          "required": false
+        },
+        {
+          "dataType": {
+            "typeArgs": [],
+            "typeName": "string",
+            "isDefsType": false,
+            "templateIndex": -1,
+            "compileTemplateKeyword": "#/definitions/",
+            "enum": [],
+            "typeProperties": []
+          },
+          "name": "updatedAtEnd",
+          "description": "最大更新时间",
+          "required": false
+        },
+        {
+          "dataType": {
+            "typeArgs": [],
+            "typeName": "string",
+            "isDefsType": false,
+            "templateIndex": -1,
+            "compileTemplateKeyword": "#/definitions/",
+            "enum": [],
+            "typeProperties": []
+          },
+          "name": "updatedAtStart",
+          "description": "最小更新时间",
+          "required": false
+        }
+      ]
+    },
+    {
+      "description": "用户列表项",
+      "name": "UserListItem",
+      "templateArgs": [],
+      "properties": [
+        {
+          "dataType": {
+            "typeArgs": [
+              {
+                "typeArgs": [],
+                "typeName": "string",
+                "isDefsType": false,
+                "templateIndex": -1,
+                "compileTemplateKeyword": "#/definitions/",
+                "enum": [],
+                "typeProperties": []
+              }
+            ],
+            "typeName": "Array",
+            "isDefsType": false,
+            "templateIndex": -1,
+            "compileTemplateKeyword": "#/definitions/",
+            "enum": [],
+            "typeProperties": []
+          },
+          "name": "departmentNameList",
+          "description": "组织名称列表",
+          "required": false
+        },
+        {
+          "dataType": {
+            "typeArgs": [],
+            "typeName": "string",
+            "isDefsType": false,
+            "templateIndex": -1,
+            "compileTemplateKeyword": "#/definitions/",
+            "enum": [],
+            "typeProperties": []
+          },
+          "name": "email",
+          "description": "邮件",
+          "required": false
+        },
+        {
+          "dataType": {
+            "typeArgs": [],
+            "typeName": "number",
+            "isDefsType": false,
+            "templateIndex": -1,
+            "compileTemplateKeyword": "#/definitions/",
+            "enum": [],
+            "typeProperties": []
+          },
+          "name": "id",
+          "description": "id",
+          "required": false
+        },
+        {
+          "dataType": {
+            "typeArgs": [],
+            "typeName": "string",
+            "isDefsType": false,
+            "templateIndex": -1,
+            "compileTemplateKeyword": "#/definitions/",
+            "enum": [],
+            "typeProperties": []
+          },
+          "name": "name",
+          "description": "姓名",
+          "required": false
+        },
+        {
+          "dataType": {
+            "typeArgs": [
+              {
+                "typeArgs": [],
+                "typeName": "string",
+                "isDefsType": false,
+                "templateIndex": -1,
+                "compileTemplateKeyword": "#/definitions/",
+                "enum": [],
+                "typeProperties": []
+              }
+            ],
+            "typeName": "Array",
+            "isDefsType": false,
+            "templateIndex": -1,
+            "compileTemplateKeyword": "#/definitions/",
+            "enum": [],
+            "typeProperties": []
+          },
+          "name": "rolNameList",
+          "description": "角色名称列表",
+          "required": false
+        },
+        {
+          "dataType": {
+            "typeArgs": [],
+            "typeName": "string",
+            "isDefsType": false,
+            "templateIndex": -1,
+            "compileTemplateKeyword": "#/definitions/",
+            "enum": [],
+            "typeProperties": []
+          },
+          "name": "updatedTime",
+          "description": "更新时间",
+          "required": false
+        }
+      ]
+    },
+    {
+      "description": "用户管理 - 条件选项",
+      "name": "UserListOptionVO",
+      "templateArgs": [],
+      "properties": [
+        {
+          "dataType": {
+            "typeArgs": [
+              {
+                "typeArgs": [],
+                "typeName": "OrganizationTree",
+                "isDefsType": true,
+                "templateIndex": -1,
+                "compileTemplateKeyword": "#/definitions/",
+                "enum": [],
+                "typeProperties": []
+              }
+            ],
+            "typeName": "Array",
+            "isDefsType": false,
+            "templateIndex": -1,
+            "compileTemplateKeyword": "#/definitions/",
+            "enum": [],
+            "typeProperties": []
+          },
+          "name": "organizations",
+          "description": "组织列表（树）",
+          "required": false
+        },
+        {
+          "dataType": {
+            "typeArgs": [
+              {
+                "typeArgs": [],
+                "typeName": "OptionVO",
+                "isDefsType": true,
+                "templateIndex": -1,
+                "compileTemplateKeyword": "#/definitions/",
+                "enum": [],
+                "typeProperties": []
+              }
+            ],
+            "typeName": "Array",
+            "isDefsType": false,
+            "templateIndex": -1,
+            "compileTemplateKeyword": "#/definitions/",
+            "enum": [],
+            "typeProperties": []
+          },
+          "name": "roles",
+          "description": "角色列表",
           "required": false
         }
       ]
