@@ -48,7 +48,7 @@ const ConfigReviewer: React.FC = () => {
         if (response.success === true) {
             setOptions(response.data?.records?.map((item => {
                 return {
-                    label: item.name,
+                    label: item.name + " " + item.email,
                     value: item.id,
                 }
             })))

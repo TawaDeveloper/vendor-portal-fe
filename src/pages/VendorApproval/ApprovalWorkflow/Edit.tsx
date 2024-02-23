@@ -28,6 +28,37 @@ const PRODUCT_CATEGORYS = [
     "Houseware"
 ]
 
+function getNodeListAndRelationList(nodes: INode[]) {
+  const nodeList: any = [];
+  const nodeRelationList: any = [];
+  for(let i = 0, l = nodes.length; i < l; i++) {
+    const node = nodes[i];
+    if (node && node.data && node.data.userId) {
+      nodeList.push({
+        "name": node.id,
+        "userIds": `${node.data.userId}`
+      })
+    }
+  }
+  if (nodeList.length == 1) {
+    nodeList[0].nodeType = 2
+  }
+  if (nodeList.length == 2) {
+    nodeList[0].nodeType = 1;
+    nodeList[1].nodeType = 2
+  }
+  for(let i = 0, l = nodeList.length; i < (l - 1) && l > 1; i++) {
+    nodeRelationList.push({
+      "sourceNodeName": nodeList[i].name,
+      "targetNodeName": nodeList[i + 1].name,
+    })
+  }
+  return {
+    nodeList,
+    nodeRelationList
+  };
+
+}
 
 const ApprovalWorkflowEdit = () => {
   
@@ -39,12 +70,13 @@ const ApprovalWorkflowEdit = () => {
   
   const save = async () => {
     if (mode === "create") {
+        const nodeData = getNodeListAndRelationList(nodes);
         vendorPortalAPI.wkfModel.createModel.request({
             name: `${new Date().getTime()}`,
             data: JSON.stringify(nodes),
             modelType,
-            nodeList: [],
-            nodeRelationList: [],
+            nodeList: nodeData.nodeList,
+            nodeRelationList: nodeData.nodeRelationList,
         }).then((response) => {
             if (response.success === true) {
                 message.success(`Create Success!`)
@@ -55,12 +87,13 @@ const ApprovalWorkflowEdit = () => {
         })
     }
     if (mode === "update") {
+        const nodeData = getNodeListAndRelationList(nodes);
         vendorPortalAPI.wkfModel.updateModel.request({
             id: Number(searchParams.get("id")),
             data: JSON.stringify(nodes),
             modelType,
-            nodeList: [],
-            nodeRelationList: [],
+            nodeList: nodeData.nodeList,
+            nodeRelationList: nodeData.nodeRelationList,
         }).then((response) => {
             if (response.success === true) {
                 message.success(`Update Success!`)
@@ -71,6 +104,24 @@ const ApprovalWorkflowEdit = () => {
         })
     }
     
+  }
+
+  const start = async () => {
+    if (mode === "update") {
+      
+      vendorPortalAPI.wkfProcdef.create.request({
+          modelId: Number(searchParams.get("id")),
+          modelType: modelType,
+          vendorId: 14
+      }).then((response) => {
+          if (response.success === true) {
+              message.success(`Create Success!`)
+          }
+          else {
+              message.error(`Create Fail! ${response.message}`)
+          }
+      })
+    }
   }
   const createDefaultWorkflow = () => {
     setNodes([
@@ -227,6 +278,9 @@ const ApprovalWorkflowEdit = () => {
         <Button size="large" type="primary" onClick={() => {
             save()
         }}>Save</Button>
+         <Button size="large" type="primary" onClick={() => {
+            start()
+        }}>Start</Button>
       </div>
       </div>
      
