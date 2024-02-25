@@ -46,7 +46,7 @@ export function request(
   options?: searchOptions,
 ): searchResponse {
   const host = getEnvHost();
-  const url = host + '/vendorPortal/api/wkf/procdef/search';
+  const url = host + '/vendor-portal/api/wkf/procdef/search';
   const fetchOption = {
     method: 'get',
     headers: {
