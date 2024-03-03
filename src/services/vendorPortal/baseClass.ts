@@ -1,3 +1,8 @@
+class CheckPwdResetUsernameVO {
+  /** 临时票据 */
+  ticket = '';
+}
+
 class CommonReturn {
   /** data */
   data = undefined;
@@ -7,6 +12,17 @@ class CommonReturn {
 
   /** msg */
   msg = '';
+}
+
+class EditHistoryItem {
+  /** 操作列表 */
+  actions = [];
+
+  /** 编辑时间 */
+  editTime = '';
+
+  /** 更新人 */
+  updater = '';
 }
 
 class IPage {
@@ -24,6 +40,89 @@ class IPage {
 
   /** total */
   total = undefined;
+}
+
+class ListOtpChannelDTO {
+  /** 临时票据 */
+  ticket = '';
+
+  /** 用户名 */
+  username = '';
+}
+
+class ListOtpChannelVO {
+  /** 验证方式列表 */
+  channels = [];
+
+  /** 临时票据 */
+  ticket = '';
+}
+
+class LoginDTO {
+  /** 设备 */
+  device = '';
+
+  /** 密码 */
+  password = '';
+
+  /** 用户名 */
+  username = '';
+}
+
+class LoginOtpDTO {
+  /** 验证方式 */
+  channel = 'EMAIL';
+
+  /** OTP 验证码 */
+  otpCode = '';
+
+  /** 密码 */
+  password = '';
+
+  /** 临时票据 */
+  ticket = '';
+
+  /** 用户名 */
+  username = '';
+}
+
+class LoginOtpVO {
+  /** token 过期时间(s) */
+  expireTime = undefined;
+
+  /** 临时票据 */
+  ticket = '';
+
+  /** token */
+  token = '';
+}
+
+class LoginTrustDeviceDTO {
+  /** 设备 */
+  device = '';
+
+  /** 临时票据 */
+  ticket = '';
+
+  /** 是否：信任设备 */
+  trustDevice = false;
+}
+
+class LoginVO {
+  /** token 过期时间(s) */
+  expireTime = undefined;
+
+  /** 是否：需要 OTP 验证 */
+  needVerifyOtp = false;
+
+  /** 是否：登录成功 */
+  success = false;
+
+  /** 临时票据 */
+  ticket = '';
+
+  /** token */
+  token = '';
 }
 
 class ModelCreateParam {
@@ -132,6 +231,32 @@ class NodeApproveParam {
   w9File = undefined;
 }
 
+class PermissionTree {
+  /** 子权限 */
+  children = [];
+
+  /** 编码 */
+  code = '';
+
+  /** id */
+  id = undefined;
+
+  /** 层级 */
+  level = undefined;
+
+  /** 名称 */
+  name = '';
+
+  /** 父 id */
+  parentId = undefined;
+
+  /** 排序 */
+  sort = undefined;
+
+  /** 类型 */
+  type = 'MENU';
+}
+
 class PermissionVO {
   /** 菜单列表 */
   menus = [];
@@ -184,12 +309,42 @@ class ProcdefCreateParam {
   vendorId = undefined;
 }
 
+class PwdResetDTO {
+  /** 密码 */
+  password = '';
+
+  /** 临时票据 */
+  ticket = '';
+
+  /** 用户名 */
+  username = '';
+}
+
+class PwdResetOtpDTO {
+  /** 验证方式 */
+  channel = 'EMAIL';
+
+  /** OTP 验证码 */
+  otpCode = '';
+
+  /** 临时票据 */
+  ticket = '';
+
+  /** 用户名 */
+  username = '';
+}
+
+class PwdResetOtpVO {
+  /** 临时票据 */
+  ticket = '';
+}
+
 class Response {
   /** 状态码：0-成功 */
   code = undefined;
 
   /** 响应数据 */
-  data = new CommonReturn();
+  data = new CheckPwdResetUsernameVO();
 
   /** 状态描述 */
   message = '';
@@ -199,6 +354,122 @@ class Response {
 
   /** traceId */
   traceId = '';
+}
+
+class RoleListDTO {
+  /** 最大更新时间 */
+  maxUpdateTime = '';
+
+  /** 最小更新时间 */
+  minUpdateTime = '';
+
+  /** pageNum */
+  pageNum = undefined;
+
+  /** pageSize */
+  pageSize = undefined;
+
+  /** 角色 id */
+  roleId = undefined;
+
+  /** 更新人 */
+  updater = '';
+}
+
+class RoleListItem {
+  /** 角色 id */
+  id = undefined;
+
+  /** 角色名称 */
+  name = '';
+
+  /** 权限数 */
+  permissionCount = undefined;
+
+  /** 更新时间 */
+  updateTime = '';
+
+  /** 更新人 */
+  updater = '';
+
+  /** 用户数 */
+  userCount = undefined;
+}
+
+class RoleListOptionVO {
+  /** 角色列表 */
+  roles = [];
+}
+
+class RoleUserListDTO {
+  /** pageNum */
+  pageNum = undefined;
+
+  /** pageSize */
+  pageSize = undefined;
+
+  /** 角色 id */
+  roleId = undefined;
+}
+
+class RoleUserListItem {
+  /** 账号 */
+  account = '';
+
+  /** 上次登录时间 */
+  lastLoginTime = '';
+
+  /** 姓名 */
+  name = '';
+
+  /** 用户 id */
+  userId = undefined;
+}
+
+class SaveRolePermissionDTO {
+  /** 权限 id 列表 */
+  permissionIds = [];
+
+  /** 角色 id */
+  roleId = undefined;
+}
+
+class SendOtpCodeDTO {
+  /** 验证方式 */
+  channel = 'EMAIL';
+
+  /** 临时票据 */
+  ticket = '';
+
+  /** 用户名 */
+  username = '';
+}
+
+class SendOtpCodeVO {
+  /** 临时票据 */
+  ticket = '';
+
+  /** 等待时间（s） */
+  waitTime = undefined;
+}
+
+class TmpLoginDTO {
+  /** 密码 */
+  password = '';
+
+  /** 用户名 */
+  username = '';
+}
+
+class TmpLoginVO {
+  /** token 过期时间(s) */
+  expireTime = undefined;
+
+  /** 是否：登录成功 */
+  success = false;
+
+  /** token */
+  token = '';
 }
 
 class UserInfoVO {
@@ -803,13 +1074,36 @@ class WkfTaskDetailVo {
 }
 
 export const vendorPortal = {
+  CheckPwdResetUsernameVO,
   CommonReturn,
+  EditHistoryItem,
   IPage,
+  ListOtpChannelDTO,
+  ListOtpChannelVO,
+  LoginDTO,
+  LoginOtpDTO,
+  LoginOtpVO,
+  LoginTrustDeviceDTO,
+  LoginVO,
   ModelCreateParam,
   NodeApproveParam,
+  PermissionTree,
   PermissionVO,
   ProcdefCreateParam,
+  PwdResetDTO,
+  PwdResetOtpDTO,
+  PwdResetOtpVO,
   Response,
+  RoleListDTO,
+  RoleListItem,
+  RoleListOptionVO,
+  RoleUserListDTO,
+  RoleUserListItem,
+  SaveRolePermissionDTO,
+  SendOtpCodeDTO,
+  SendOtpCodeVO,
+  TmpLoginDTO,
+  TmpLoginVO,
   UserInfoVO,
   UserListDTO,
   UserListItem,

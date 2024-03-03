@@ -28,35 +28,112 @@ const PRODUCT_CATEGORYS = [
     "Houseware"
 ]
 
-function getNodeListAndRelationList(nodes: INode[]) {
-  const nodeList: any = [];
-  const nodeRelationList: any = [];
+function getNodeListAndRelationList(nodes: INode[], parenNode: any, nodeList: any[], nodeRelationList: any[],layer: number) {
+   console.log(nodes, parenNode, nodeList, nodeRelationList, layer)
   for(let i = 0, l = nodes.length; i < l; i++) {
     const node = nodes[i];
+   
+    let nodeItem: any = null;
     if (node && node.data && node.data.userId) {
-      nodeList.push({
+      console.log(node)
+      let prevParentNode = null;
+      for(let m = i - 1; m >= 0; m--) {
+        const prevNode = nodes[m];
+        if (prevNode && prevNode.data && prevNode.data.userId) {
+          prevParentNode = prevNode;
+          break;
+        }
+      }
+      nodeItem = {
         "name": node.id,
         "userIds": `${node.data.userId}`
-      })
+      }
+      console.log(node, nodeItem)
+
+      if (i = 0 && layer == 1) {
+        nodeItem.nodeType = 1
+      }
+      if (i == (l - 1) && layer == 1) {
+        nodeItem.nodeType = 2;
+      }
+      nodeList.push(nodeItem)
+      if (prevParentNode) {
+        nodeRelationList.push({
+          "sourceNodeName": prevParentNode.id,
+          "targetNodeName": node.id,
+        })
+      }
+      else {
+        if (parenNode) {
+          nodeRelationList.push({
+            "sourceNodeName": parenNode.id ? parenNode.id: parenNode.name,
+            "targetNodeName": node.id,
+          })
+        }
+      }
     }
+    if (node.children && node.children.length > 0) {
+     // getNodeListAndRelationList(node.children, nodeItem, nodeList, nodeRelationList, layer + 1)
+    }
+    break;
   }
-  if (nodeList.length == 1) {
-    nodeList[0].nodeType = 2
-  }
-  if (nodeList.length == 2) {
-    nodeList[0].nodeType = 1;
-    nodeList[1].nodeType = 2
-  }
-  for(let i = 0, l = nodeList.length; i < (l - 1) && l > 1; i++) {
-    nodeRelationList.push({
-      "sourceNodeName": nodeList[i].name,
-      "targetNodeName": nodeList[i + 1].name,
-    })
-  }
-  return {
-    nodeList,
-    nodeRelationList
-  };
+  // if (layer === 1) {
+  //   _nodeList[0].nodeType = 1;
+  //   _nodeList[_nodeList.length - 1].nodeType = 2;
+  // }
+  
+
+  // _nodeList.forEach((element:any) => {
+  //   nodeList.push(element)
+  // });
+
+  // // if (nodeList.length == 1) {
+  // //   nodeList[0].nodeType = 2
+  // // }
+  // // if (nodeList.length == 2) {
+  // //   nodeList[0].nodeType = 1;
+  // //   nodeList[1].nodeType = 2
+  // // }
+  // console.log(parenNode, nodes)
+  // if (parenNode && _nodeList[0]) {
+  //   _nodeRelationList.push({
+  //     "sourceNodeName": parenNode.name,
+  //     "targetNodeName": _nodeList[0].name,
+  //     "conditionExpression": "ADDIF-PASS"
+  //   })
+  //   for(let i = 1, l = _nodeList.length; i < (l - 1) && l > 1; i++) {
+  //     _nodeRelationList.push({
+  //       "sourceNodeName": _nodeList[i].name,
+  //       "targetNodeName": _nodeList[i + 1].name,
+  //     })
+  //   }
+  // }
+  // else {
+  //   for(let i = 0, l = _nodeList.length; i < (l - 1) && l > 1; i++) {
+  //     _nodeRelationList.push({
+  //       "sourceNodeName": _nodeList[i].name,
+  //       "targetNodeName": _nodeList[i + 1].name,
+  //     })
+  //   }
+  // }
+ 
+  
+  // _nodeRelationList.forEach((element:any) => {
+  //   nodeRelationList.push(element)
+  // });
+  // for(let i = 0, l = nodes.length; i < l; i++) {
+  //   const node = nodes[i];
+  //   let parentNode = null;
+  //   for(let m = i - 1; m >= 0; m--) {
+  //     if (_nodeList[m]) {
+  //       parentNode = _nodeList[m];
+  //       break;
+  //     }
+  //   }
+  //   if (node.children) {
+  //     getNodeListAndRelationList(node.children, parentNode, nodeList, nodeRelationList, layer + 1)
+  //   }
+  // }
 
 }
 
@@ -69,14 +146,19 @@ const ApprovalWorkflowEdit = () => {
   const [productCategory, setProductCategory] = useState(0);
   
   const save = async () => {
+    let nodeList: any[] = [];
+    let nodeRelationList : any[] = [];
+    
     if (mode === "create") {
-        const nodeData = getNodeListAndRelationList(nodes);
+      
+        getNodeListAndRelationList(nodes, null, nodeList, nodeRelationList, 1);
+        console.log(nodes, nodeList, nodeRelationList)
         vendorPortalAPI.wkfModel.createModel.request({
             name: `${new Date().getTime()}`,
             data: JSON.stringify(nodes),
             modelType,
-            nodeList: nodeData.nodeList,
-            nodeRelationList: nodeData.nodeRelationList,
+            nodeList: nodeList,
+            nodeRelationList: nodeRelationList,
         }).then((response) => {
             if (response.success === true) {
                 message.success(`Create Success!`)
@@ -87,13 +169,14 @@ const ApprovalWorkflowEdit = () => {
         })
     }
     if (mode === "update") {
-        const nodeData = getNodeListAndRelationList(nodes);
+        getNodeListAndRelationList(nodes, null, nodeList, nodeRelationList, 1);
+        console.log(nodes, nodeList, nodeRelationList)
         vendorPortalAPI.wkfModel.updateModel.request({
             id: Number(searchParams.get("id")),
             data: JSON.stringify(nodes),
             modelType,
-            nodeList: nodeData.nodeList,
-            nodeRelationList: nodeData.nodeRelationList,
+            nodeList: nodeList,
+            nodeRelationList: nodeRelationList,
         }).then((response) => {
             if (response.success === true) {
                 message.success(`Update Success!`)

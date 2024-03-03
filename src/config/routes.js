@@ -41,9 +41,6 @@ const ReportByProduct = lazy(() =>
 const ReportByCategory = lazy(() =>
   import(/* webpackChunkName: "Menu" */ '@/pages/SalesReport/ReportByCategory'),
 );
-const LossFactor = lazy(() =>
-  import(/* webpackChunkName: "Menu" */ '@/pages/Setting/LossFactor'),
-);
 
 const RolePermissionSetting = lazy(() =>
   import(
@@ -183,14 +180,7 @@ const vendorPanels = [
   },
 ];
 const accessManagement = [
-  {
-    path: 'org',
-    name: 'menus.top.orgManagement',
-    component: RoleManagement,
-    code: 'menu:Organization Management',
-    parentCode: 'menu:Access Management',
-    skipAuthentication: true,
-  },
+
   {
     path: 'role',
     name: 'menus.top.roleManagement',

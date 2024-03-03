@@ -4,6 +4,11 @@ type ObjectMap<Key extends string | number | symbol = any, Value = any> = {
 
 declare namespace defs {
   export namespace vendorPortal {
+    export class CheckPwdResetUsernameVO {
+      /** 临时票据 */
+      ticket?: string;
+    }
+
     export class CommonReturn {
       /** data */
       data?: object;
@@ -13,6 +18,17 @@ declare namespace defs {
 
       /** msg */
       msg?: string;
+    }
+
+    export class EditHistoryItem {
+      /** 操作列表 */
+      actions?: Array<defs.vendorPortal.RoleActionItem>;
+
+      /** 编辑时间 */
+      editTime?: string;
+
+      /** 更新人 */
+      updater?: string;
     }
 
     export class IPage<T0 = any> {
@@ -30,6 +46,89 @@ declare namespace defs {
 
       /** total */
       total?: number;
+    }
+
+    export class ListOtpChannelDTO {
+      /** 临时票据 */
+      ticket?: string;
+
+      /** 用户名 */
+      username?: string;
+    }
+
+    export class ListOtpChannelVO {
+      /** 验证方式列表 */
+      channels?: Array<defs.vendorPortal.OtpChannel>;
+
+      /** 临时票据 */
+      ticket?: string;
+    }
+
+    export class LoginDTO {
+      /** 设备 */
+      device?: string;
+
+      /** 密码 */
+      password?: string;
+
+      /** 用户名 */
+      username?: string;
+    }
+
+    export class LoginOtpDTO {
+      /** 验证方式 */
+      channel?: 'EMAIL' | 'SMS' | 'VOICE';
+
+      /** OTP 验证码 */
+      otpCode?: string;
+
+      /** 密码 */
+      password?: string;
+
+      /** 临时票据 */
+      ticket?: string;
+
+      /** 用户名 */
+      username?: string;
+    }
+
+    export class LoginOtpVO {
+      /** token 过期时间(s) */
+      expireTime?: number;
+
+      /** 临时票据 */
+      ticket?: string;
+
+      /** token */
+      token?: string;
+    }
+
+    export class LoginTrustDeviceDTO {
+      /** 设备 */
+      device?: string;
+
+      /** 临时票据 */
+      ticket?: string;
+
+      /** 是否：信任设备 */
+      trustDevice?: boolean;
+    }
+
+    export class LoginVO {
+      /** token 过期时间(s) */
+      expireTime?: number;
+
+      /** 是否：需要 OTP 验证 */
+      needVerifyOtp?: boolean;
+
+      /** 是否：登录成功 */
+      success?: boolean;
+
+      /** 临时票据 */
+      ticket?: string;
+
+      /** token */
+      token?: string;
     }
 
     export class ModelCreateParam {
@@ -138,6 +237,32 @@ declare namespace defs {
       w9File?: File;
     }
 
+    export class PermissionTree {
+      /** 子权限 */
+      children?: Array<defs.vendorPortal.PermissionTree>;
+
+      /** 编码 */
+      code?: string;
+
+      /** id */
+      id?: number;
+
+      /** 层级 */
+      level?: number;
+
+      /** 名称 */
+      name?: string;
+
+      /** 父 id */
+      parentId?: number;
+
+      /** 排序 */
+      sort?: number;
+
+      /** 类型 */
+      type?: 'MENU' | 'PAGE' | 'POINT';
+    }
+
     export class PermissionVO {
       /** 菜单列表 */
       menus?: Array<defs.vendorPortal.Menu>;
@@ -190,6 +315,36 @@ declare namespace defs {
       vendorId?: number;
     }
 
+    export class PwdResetDTO {
+      /** 密码 */
+      password?: string;
+
+      /** 临时票据 */
+      ticket?: string;
+
+      /** 用户名 */
+      username?: string;
+    }
+
+    export class PwdResetOtpDTO {
+      /** 验证方式 */
+      channel?: 'EMAIL' | 'SMS' | 'VOICE';
+
+      /** OTP 验证码 */
+      otpCode?: string;
+
+      /** 临时票据 */
+      ticket?: string;
+
+      /** 用户名 */
+      username?: string;
+    }
+
+    export class PwdResetOtpVO {
+      /** 临时票据 */
+      ticket?: string;
+    }
+
     export class Response<T0 = any> {
       /** 状态码：0-成功 */
       code?: number;
@@ -205,6 +360,122 @@ declare namespace defs {
 
       /** traceId */
       traceId?: string;
+    }
+
+    export class RoleListDTO {
+      /** 最大更新时间 */
+      maxUpdateTime?: string;
+
+      /** 最小更新时间 */
+      minUpdateTime?: string;
+
+      /** pageNum */
+      pageNum?: number;
+
+      /** pageSize */
+      pageSize?: number;
+
+      /** 角色 id */
+      roleId?: number;
+
+      /** 更新人 */
+      updater?: string;
+    }
+
+    export class RoleListItem {
+      /** 角色 id */
+      id?: number;
+
+      /** 角色名称 */
+      name?: string;
+
+      /** 权限数 */
+      permissionCount?: number;
+
+      /** 更新时间 */
+      updateTime?: string;
+
+      /** 更新人 */
+      updater?: string;
+
+      /** 用户数 */
+      userCount?: number;
+    }
+
+    export class RoleListOptionVO {
+      /** 角色列表 */
+      roles?: Array<defs.vendorPortal.OptionVO>;
+    }
+
+    export class RoleUserListDTO {
+      /** pageNum */
+      pageNum?: number;
+
+      /** pageSize */
+      pageSize?: number;
+
+      /** 角色 id */
+      roleId?: number;
+    }
+
+    export class RoleUserListItem {
+      /** 账号 */
+      account?: string;
+
+      /** 上次登录时间 */
+      lastLoginTime?: string;
+
+      /** 姓名 */
+      name?: string;
+
+      /** 用户 id */
+      userId?: number;
+    }
+
+    export class SaveRolePermissionDTO {
+      /** 权限 id 列表 */
+      permissionIds?: Array<number>;
+
+      /** 角色 id */
+      roleId?: number;
+    }
+
+    export class SendOtpCodeDTO {
+      /** 验证方式 */
+      channel?: 'EMAIL' | 'SMS' | 'VOICE';
+
+      /** 临时票据 */
+      ticket?: string;
+
+      /** 用户名 */
+      username?: string;
+    }
+
+    export class SendOtpCodeVO {
+      /** 临时票据 */
+      ticket?: string;
+
+      /** 等待时间（s） */
+      waitTime?: number;
+    }
+
+    export class TmpLoginDTO {
+      /** 密码 */
+      password?: string;
+
+      /** 用户名 */
+      username?: string;
+    }
+
+    export class TmpLoginVO {
+      /** token 过期时间(s) */
+      expireTime?: number;
+
+      /** 是否：登录成功 */
+      success?: boolean;
+
+      /** token */
+      token?: string;
     }
 
     export class UserInfoVO {
@@ -844,6 +1115,124 @@ declare namespace API {
     }
 
     /**
+     * Internal 角色管理
+     */
+    export namespace internalRole {
+      /**
+       * 查询角色编辑历史
+       * /internal/role/edit/history
+       */
+      export namespace getRoleEditHistory {
+        export type getRoleEditHistoryParam = {
+          /** roleId */
+          roleId: number;
+        };
+        export type getRoleEditHistoryOptions = Record<string, any>;
+        export type getRoleEditHistoryResponse = defs.vendorPortal.Response<
+          Array<defs.vendorPortal.EditHistoryItem>
+        >;
+        export type request = (
+          params: getRoleEditHistoryParam,
+          options?: getRoleEditHistoryOptions,
+        ) => getRoleEditHistoryResponse;
+      }
+
+      /**
+       * 查询角色列表条件选项
+       * /internal/role/list/option
+       */
+      export namespace getRoleListOption {
+        export type getRoleListOptionOptions = Record<string, any>;
+        export type getRoleListOptionResponse =
+          defs.vendorPortal.Response<defs.vendorPortal.RoleListOptionVO>;
+        export type request = (
+          options?: getRoleListOptionOptions,
+        ) => getRoleListOptionResponse;
+      }
+
+      /**
+       * 查询角色列表
+       * /internal/role/list/page
+       */
+      export namespace getRoleListForPage {
+        export type getRoleListForPageBody = defs.vendorPortal.RoleListDTO;
+        export type getRoleListForPageOptions = Record<string, any>;
+        export type getRoleListForPageResponse = defs.vendorPortal.Response<
+          defs.vendorPortal.IPage<defs.vendorPortal.RoleListItem>
+        >;
+        export type request = (
+          body: getRoleListForPageBody,
+          options?: getRoleListForPageOptions,
+        ) => getRoleListForPageResponse;
+      }
+
+      /**
+       * 查询角色权限（子节点 id 列表）
+       * /internal/role/permission/ids
+       */
+      export namespace getRolePermissionIds {
+        export type getRolePermissionIdsParam = {
+          /** roleId */
+          roleId: number;
+        };
+        export type getRolePermissionIdsOptions = Record<string, any>;
+        export type getRolePermissionIdsResponse = defs.vendorPortal.Response<
+          Array<number>
+        >;
+        export type request = (
+          params: getRolePermissionIdsParam,
+          options?: getRolePermissionIdsOptions,
+        ) => getRolePermissionIdsResponse;
+      }
+
+      /**
+       * 保存角色权限
+       * /internal/role/permission/save
+       */
+      export namespace saveRolePermissionIds {
+        export type saveRolePermissionIdsBody =
+          defs.vendorPortal.SaveRolePermissionDTO;
+        export type saveRolePermissionIdsOptions = Record<string, any>;
+        export type saveRolePermissionIdsResponse =
+          defs.vendorPortal.Response<void>;
+        export type request = (
+          body: saveRolePermissionIdsBody,
+          options?: saveRolePermissionIdsOptions,
+        ) => saveRolePermissionIdsResponse;
+      }
+
+      /**
+       * 查询所有权限树
+       * /internal/role/permission/tree
+       */
+      export namespace getAllPermissionTree {
+        export type getAllPermissionTreeOptions = Record<string, any>;
+        export type getAllPermissionTreeResponse = defs.vendorPortal.Response<
+          Array<defs.vendorPortal.PermissionTree>
+        >;
+        export type request = (
+          options?: getAllPermissionTreeOptions,
+        ) => getAllPermissionTreeResponse;
+      }
+
+      /**
+       * 查询角色用户列表
+       * /internal/role/user/list/page
+       */
+      export namespace getRoleUserList {
+        export type getRoleUserListBody = defs.vendorPortal.RoleUserListDTO;
+        export type getRoleUserListOptions = Record<string, any>;
+        export type getRoleUserListResponse = defs.vendorPortal.Response<
+          defs.vendorPortal.IPage<defs.vendorPortal.RoleUserListItem>
+        >;
+        export type request = (
+          body: getRoleUserListBody,
+          options?: getRoleUserListOptions,
+        ) => getRoleUserListResponse;
+      }
+    }
+
+    /**
      * Internal 用户管理
      */
     export namespace internalUser {
@@ -874,6 +1263,168 @@ declare namespace API {
           body: getUserListForPageBody,
           options?: getUserListForPageOptions,
         ) => getUserListForPageResponse;
+      }
+    }
+
+    /**
+     * Vendor 权限
+     */
+    export namespace vendorPermission {
+      /**
+       * 登录 - 正式用户
+       * /vendor/permission/login
+       */
+      export namespace login {
+        export type loginBody = defs.vendorPortal.LoginDTO;
+        export type loginOptions = Record<string, any>;
+        export type loginResponse =
+          defs.vendorPortal.Response<defs.vendorPortal.LoginVO>;
+        export type request = (
+          body: loginBody,
+          options?: loginOptions,
+        ) => loginResponse;
+      }
+
+      /**
+       * 登录 - 选择信任设备
+       * /vendor/permission/login/device/trust
+       */
+      export namespace trustLoginDevice {
+        export type trustLoginDeviceBody =
+          defs.vendorPortal.LoginTrustDeviceDTO;
+        export type trustLoginDeviceOptions = Record<string, any>;
+        export type trustLoginDeviceResponse = defs.vendorPortal.Response<void>;
+        export type request = (
+          body: trustLoginDeviceBody,
+          options?: trustLoginDeviceOptions,
+        ) => trustLoginDeviceResponse;
+      }
+
+      /**
+       * 登录 - 提交 OTP 验证码
+       * /vendor/permission/login/opt/code/check
+       */
+      export namespace checkLoginOtpCode {
+        export type checkLoginOtpCodeBody = defs.vendorPortal.LoginOtpDTO;
+        export type checkLoginOtpCodeOptions = Record<string, any>;
+        export type checkLoginOtpCodeResponse =
+          defs.vendorPortal.Response<defs.vendorPortal.LoginOtpVO>;
+        export type request = (
+          body: checkLoginOtpCodeBody,
+          options?: checkLoginOtpCodeOptions,
+        ) => checkLoginOtpCodeResponse;
+      }
+
+      /**
+       * 退出 - 正式用户
+       * /vendor/permission/logout
+       */
+      export namespace logout {
+        export type logoutOptions = Record<string, any>;
+        export type logoutResponse = defs.vendorPortal.Response<void>;
+        export type request = (options?: logoutOptions) => logoutResponse;
+      }
+
+      /**
+       * OTP - 查询验证方式
+       * /vendor/permission/otp/channels
+       */
+      export namespace getOptChannels {
+        export type getOptChannelsBody = defs.vendorPortal.ListOtpChannelDTO;
+        export type getOptChannelsOptions = Record<string, any>;
+        export type getOptChannelsResponse =
+          defs.vendorPortal.Response<defs.vendorPortal.ListOtpChannelVO>;
+        export type request = (
+          body: getOptChannelsBody,
+          options?: getOptChannelsOptions,
+        ) => getOptChannelsResponse;
+      }
+
+      /**
+       * OTP - 发送验证码
+       * /vendor/permission/otp/code/send
+       */
+      export namespace sendOtpCode {
+        export type sendOtpCodeBody = defs.vendorPortal.SendOtpCodeDTO;
+        export type sendOtpCodeOptions = Record<string, any>;
+        export type sendOtpCodeResponse =
+          defs.vendorPortal.Response<defs.vendorPortal.SendOtpCodeVO>;
+        export type request = (
+          body: sendOtpCodeBody,
+          options?: sendOtpCodeOptions,
+        ) => sendOtpCodeResponse;
+      }
+
+      /**
+       * 重置密码
+       * /vendor/permission/pwd/reset
+       */
+      export namespace restPwd {
+        export type restPwdBody = defs.vendorPortal.PwdResetDTO;
+        export type restPwdOptions = Record<string, any>;
+        export type restPwdResponse = defs.vendorPortal.Response<void>;
+        export type request = (
+          body: restPwdBody,
+          options?: restPwdOptions,
+        ) => restPwdResponse;
+      }
+
+      /**
+       * 重置密码 - 提交 OTP 验证码
+       * /vendor/permission/pwd/reset/otp/code/check
+       */
+      export namespace checkPwdResetOptCode {
+        export type checkPwdResetOptCodeBody = defs.vendorPortal.PwdResetOtpDTO;
+        export type checkPwdResetOptCodeOptions = Record<string, any>;
+        export type checkPwdResetOptCodeResponse =
+          defs.vendorPortal.Response<defs.vendorPortal.PwdResetOtpVO>;
+        export type request = (
+          body: checkPwdResetOptCodeBody,
+          options?: checkPwdResetOptCodeOptions,
+        ) => checkPwdResetOptCodeResponse;
+      }
+
+      /**
+       * 重置密码 - 验证用户名
+       * /vendor/permission/pwd/reset/username/check
+       */
+      export namespace checkPwdResetUsername {
+        export type checkPwdResetUsernameParam = {
+          /** username */
+          username: string;
+        };
+        export type checkPwdResetUsernameOptions = Record<string, any>;
+        export type checkPwdResetUsernameResponse =
+          defs.vendorPortal.Response<defs.vendorPortal.CheckPwdResetUsernameVO>;
+        export type request = (
+          params: checkPwdResetUsernameParam,
+          options?: checkPwdResetUsernameOptions,
+        ) => checkPwdResetUsernameResponse;
+      }
+
+      /**
+       * 登录 - 临时用户
+       * /vendor/permission/tmp/login
+       */
+      export namespace tmpLogin {
+        export type tmpLoginBody = defs.vendorPortal.TmpLoginDTO;
+        export type tmpLoginOptions = Record<string, any>;
+        export type tmpLoginResponse =
+          defs.vendorPortal.Response<defs.vendorPortal.TmpLoginVO>;
+        export type request = (
+          body: tmpLoginBody,
+          options?: tmpLoginOptions,
+        ) => tmpLoginResponse;
+      }
+
+      /**
+       * 退出 - 临时用户
+       * /vendor/permission/tmp/logout
+       */
+      export namespace tmpLogout {
+        export type tmpLogoutOptions = Record<string, any>;
+        export type tmpLogoutResponse = defs.vendorPortal.Response<void>;
+        export type request = (options?: tmpLogoutOptions) => tmpLogoutResponse;
       }
     }
 
