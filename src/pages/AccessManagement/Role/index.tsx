@@ -5,7 +5,7 @@ import { TableQueryActions } from '@tawa/mario-hooks/lib/useTableQuery';
 import { t } from 'i18next';
 
 import ContentPanel from '@/components/ContentPanel';
-import { tawaAPI, vendorPortalAPI } from '@/services';
+import { vendorPortalAPI } from '@/services';
 import { formFields, tableFields } from './fields';
 import OptPermissionDialog from './OptPermissionDialog';
 import DataPermissionDialog from './DataPermissionDialog';
@@ -31,16 +31,7 @@ const RolePermissionSetting = () => {
   };
 
   const { loading, data, run } = useRequest(queryRoleList);
-  const setRoleStatus = async (
-    role: defs.tawa.PageRoleResponse,
-    status: string,
-  ) => {
-    await tawaAPI.permRole.editStatus.request({
-      id: String(role.id),
-      status,
-    });
-    run({});
-  };
+
   const tableProps = {
     loading,
     fields: tableFields,
@@ -84,29 +75,29 @@ const RolePermissionSetting = () => {
         }),
       },
     
-      {
-        key: 'action',
-        name: t<string>(`pages.rolePermissionSetting.action`),
-        width: 120,
-        type: 'action',
-        props: (_: any, record: any) => ({
-          options: [
-            {
-              name:
-                record.status === 'ENABLE'
-                  ? t<string>(`pages.rolePermissionSetting.disabled`)
-                  : t<string>(`pages.rolePermissionSetting.enabled`),
-              onClick: () => {
-                if (record.status === 'ENABLE') {
-                  setRoleStatus(record, 'DISABLE');
-                } else {
-                  setRoleStatus(record, 'ENABLE');
-                }
-              },
-            },
-          ],
-        }),
-      },
+      // {
+      //   key: 'action',
+      //   name: t<string>(`pages.rolePermissionSetting.action`),
+      //   width: 120,
+      //   type: 'action',
+      //   props: (_: any, record: any) => ({
+      //     options: [
+      //       {
+      //         name:
+      //           record.status === 'ENABLE'
+      //             ? t<string>(`pages.rolePermissionSetting.disabled`)
+      //             : t<string>(`pages.rolePermissionSetting.enabled`),
+      //         onClick: () => {
+      //           if (record.status === 'ENABLE') {
+      //             setRoleStatus(record, 'DISABLE');
+      //           } else {
+      //             setRoleStatus(record, 'ENABLE');
+      //           }
+      //         },
+      //       },
+      //     ],
+      //   }),
+      // },
     ],
     pagination: {
       defaultPageSize: 20,

@@ -4,7 +4,7 @@ import Title from 'antd/lib/typography/Title';
 import { t } from 'i18next';
 import { uniq } from 'lodash-es';
 import { useEffect, useRef, useState } from 'react';
-import { bakeryAPI } from '@/services';
+import { bakeryAPI, vendorPortalAPI } from '@/services';
 import usePermission from '@/hooks/usePermission';
 
 const OptPermissionDialog = ({
@@ -91,16 +91,18 @@ const OptPermissionDialog = ({
     setLoading(true);
     const nodeMap: any = {};
     const optPermissionOptionResponse =
-      await bakeryAPI.permission.optPermissionOption.request();
-    if (optPermissionOptionResponse.data) {
-      setTreeData(
-        generateTreeData(null, optPermissionOptionResponse.data, nodeMap),
-      );
-      treeMap.current = nodeMap;
-    }
+      await vendorPortalAPI.internalRole.getAllPermissionTree.request();
+      console.log(optPermissionOptionResponse)
+      setTreeData([])
+    // if (optPermissionOptionResponse.data) {
+    //   setTreeData(
+    //     generateTreeData(null, optPermissionOptionResponse.data, nodeMap),
+    //   );
+    //   treeMap.current = nodeMap;
+    // }
 
     const listOperationPermissionsResponse =
-      await bakeryAPI.permission.listOperationPermissions.request({
+      await vendorPortalAPI.internalRole.getRolePermissionIds.request({
         roleId: Number(role.id),
       });
     if (listOperationPermissionsResponse.data) {

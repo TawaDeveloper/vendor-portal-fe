@@ -14,7 +14,7 @@ export function request(
   options?: getAllPermissionTreeOptions,
 ): getAllPermissionTreeResponse {
   const host = getEnvHost();
-  const url = host + '/vendorPortal/internal/role/permission/tree';
+  const url = host + '/vendor-portal/internal/role/permission/tree';
   const fetchOption = {
     method: 'get',
     headers: {
