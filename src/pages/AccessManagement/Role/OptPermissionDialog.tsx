@@ -4,8 +4,8 @@ import Title from 'antd/lib/typography/Title';
 import { t } from 'i18next';
 import { uniq } from 'lodash-es';
 import { useEffect, useRef, useState } from 'react';
-import { bakeryAPI, vendorPortalAPI } from '@/services';
-import usePermission from '@/hooks/usePermission';
+import { vendorPortalAPI } from '@/services';
+// import usePermission from '@/hooks/usePermission';
 
 const OptPermissionDialog = ({
   role,
@@ -17,13 +17,14 @@ const OptPermissionDialog = ({
   const [treeData, setTreeData] = useState<DataNode[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [checkedKeys, setCheckedKeys] = useState<any>({});
-  const isCanUpdatePermission = usePermission(
-    'component:Setting:Update Permissions',
-  );
+  // const isCanUpdatePermission = usePermission(
+  //   'component:Setting:Update Permissions',
+  // );
+  const isCanUpdatePermission = true;
   const treeMap = useRef<any>(null);
   const generateTreeData = (
     parentId: any,
-    datas: defs.bakery.PermissionVo[],
+    datas: defs.vendorPortal.PermissionTree[],
     nodeMap: any,
   ) => {
     const treeNodes: DataNode[] = [];
@@ -93,13 +94,13 @@ const OptPermissionDialog = ({
     const optPermissionOptionResponse =
       await vendorPortalAPI.internalRole.getAllPermissionTree.request();
       console.log(optPermissionOptionResponse)
-      setTreeData([])
-    // if (optPermissionOptionResponse.data) {
-    //   setTreeData(
-    //     generateTreeData(null, optPermissionOptionResponse.data, nodeMap),
-    //   );
-    //   treeMap.current = nodeMap;
-    // }
+
+    if (optPermissionOptionResponse.data) {
+      setTreeData(
+        generateTreeData(null, optPermissionOptionResponse.data, nodeMap),
+      );
+      treeMap.current = nodeMap;
+    }
 
     const listOperationPermissionsResponse =
       await vendorPortalAPI.internalRole.getRolePermissionIds.request({
@@ -139,9 +140,9 @@ const OptPermissionDialog = ({
 
   const save = async () => {
     setLoading(true);
-    await bakeryAPI.permission.saveOperationPermissions.request({
+    await vendorPortalAPI.internalRole.saveRolePermissionIds.request({
       roleId: Number(role.id),
-      referIds: checkedKeys.checked.concat(checkedKeys.halfChecked),
+      permissionIds: checkedKeys.checked.concat(checkedKeys.halfChecked),
     });
     setLoading(false);
     message.success(t<string>('pages.common.operationSuccess'));

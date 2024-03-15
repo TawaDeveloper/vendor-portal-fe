@@ -16,7 +16,7 @@ export function request(
   options?: saveRolePermissionIdsOptions,
 ): saveRolePermissionIdsResponse {
   const host = getEnvHost();
-  const url = host + '/vendorPortal/internal/role/permission/save';
+  const url = host + '/vendor-portal/internal/role/permission/save';
   const fetchOption = {
     method: 'post',
     headers: {
